@@ -1,0 +1,145 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+
+use Faker\Factory as Faker;
+use Illuminate\Support\Str;
+
+use App\Models\Product;
+
+class ProductSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+
+
+        $pics = array(
+            'https://img0.pixhost.to/images/521/525528174_456876615_824839953091600_373058502065527620_n.jpg',
+            'https://img0.pixhost.to/images/521/525528177_457047077_824839913091604_6827878816774069451_n.jpg',
+            'https://img0.pixhost.to/images/521/525528179_457059170_824839919758270_5898781625934178877_n.jpg',
+            'https://img0.pixhost.to/images/521/525528180_457068761_824687836440145_5153308503659329236_n.jpg',
+            'https://img0.pixhost.to/images/521/525528183_457108245_826108286298100_7371170443229932204_n.jpg',
+            'https://img0.pixhost.to/images/521/525528185_457148590_824839943091601_1281692990382803537_n.jpg',
+            'https://img0.pixhost.to/images/521/525528187_457182655_826108169631445_6418378971016449353_n.jpg',
+            'https://img0.pixhost.to/images/521/525528191_457194974_824686073106988_1303631752550717492_n.jpg',
+            'https://img0.pixhost.to/images/521/525528193_457202403_826108212964774_4518324890258408962_n.jpg',
+            'https://img0.pixhost.to/images/521/525528196_457252339_826111246297804_1482584269579508541_n.jpg',
+            'https://img0.pixhost.to/images/521/525528199_457255007_826109886297940_1643475204889526506_n.jpg',
+            'https://img0.pixhost.to/images/521/525528200_457256609_826109976297931_16234402938316223_n.jpg',
+            'https://img0.pixhost.to/images/521/525528201_457259507_826109889631273_1344423200547187778_n.jpg',
+            'https://img0.pixhost.to/images/521/525528203_457489399_826106882964907_4536263797755428247_n.jpg',
+            'https://img0.pixhost.to/images/521/525528205_458145930_829808809261381_6503752226151069676_n.jpg',
+            'https://img0.pixhost.to/images/521/525528206_458165816_829813222594273_1768757789697369734_n.jpg',
+            'https://img0.pixhost.to/images/521/525528207_458178749_829819179260344_4306988528900577375_n.jpg',
+            'https://img0.pixhost.to/images/521/525528209_458180466_829808745928054_1493380964950173827_n.jpg',
+            'https://img0.pixhost.to/images/521/525528213_458192606_829813175927611_7617827776414967920_n.jpg',
+            'https://img0.pixhost.to/images/521/525528217_458201925_829813162594279_5565615279766255301_n.jpg',
+            'https://img0.pixhost.to/images/521/525528221_458248829_829813839260878_3473915790427064369_n.jpg',
+            'https://img0.pixhost.to/images/521/525528226_458284907_829819162593679_8302363827571681436_n.jpg',
+            'https://img0.pixhost.to/images/521/525528228_458294120_829819219260340_8349792783998024307_n.jpg',
+            'https://img0.pixhost.to/images/521/525528229_458303925_829808759261386_1387737403806501960_n.jpg',
+            'https://img0.pixhost.to/images/521/525528230_458395717_829807362594859_7339817141408486839_n.jpg',
+            'https://img0.pixhost.to/images/521/525528231_458493944_829819695926959_3391154605643842615_n.jpg',
+            'https://img0.pixhost.to/images/521/525528234_458504853_831503262425269_9073132980470848424_n.jpg',
+            'https://img0.pixhost.to/images/521/525528235_458549429_831503282425267_3473757636609037808_n.jpg',
+            'https://img0.pixhost.to/images/521/525528237_458579399_831500345758894_4660599478092319741_n.jpg',
+            'https://img0.pixhost.to/images/521/525528242_458580345_831518965757032_9136958633731166878_n.jpg',
+            'https://img0.pixhost.to/images/521/525528245_458609688_831518972423698_6216294872552632589_n.jpg',
+            'https://img0.pixhost.to/images/521/525528252_458610163_831503965758532_4622077829669125966_n.jpg',
+            'https://img0.pixhost.to/images/521/525528256_458687746_831498492425746_8862856611349016573_n.jpg',
+            'https://img0.pixhost.to/images/521/525528261_458698285_831498462425749_2370883238388886653_n.jpg',
+            'https://img0.pixhost.to/images/521/525528264_458726323_831518942423701_4892610958853157684_n.jpg',
+            'https://img0.pixhost.to/images/521/525528266_458734141_831498442425751_2111530517635177536_n.jpg',
+            'https://img0.pixhost.to/images/521/525528269_458753646_831518982423697_4274710847906861862_n.jpg',
+            'https://img0.pixhost.to/images/521/525528273_458946090_833460862229509_8193678765442833810_n.jpg',
+            'https://img0.pixhost.to/images/521/525528275_459002580_831503312425264_7381243704341056062_n.jpg',
+            'https://img0.pixhost.to/images/521/525528276_459086238_833460952229500_1505523521447102218_n.jpg',
+            'https://img0.pixhost.to/images/521/525528281_459096669_833460975562831_4577173744396805310_n.jpg',
+            'https://img0.pixhost.to/images/521/525528284_459297339_833461008896161_342336405863531665_n.jpg',
+            'https://img0.pixhost.to/images/521/525528285_459432098_835939395314989_7554702564501686543_n.jpg',
+            'https://img0.pixhost.to/images/521/525528287_459463340_836054041970191_352639680057664860_n.jpg',
+            'https://img0.pixhost.to/images/521/525528289_459463990_836169175292011_2234040522336632889_n.jpg',
+            'https://img0.pixhost.to/images/521/525528303_459472016_835939415314987_2069639357227986529_n.jpg',
+            'https://img0.pixhost.to/images/521/525528304_459495230_835937641981831_1078203269477006513_n.jpg',
+            'https://img0.pixhost.to/images/521/525528309_459525469_836054051970190_7543455554848285477_n.jpg',
+            'https://img0.pixhost.to/images/521/525528315_459555087_836169195292009_2349982760108996597_n.jpg',
+            'https://img0.pixhost.to/images/521/525528317_459619312_835939468648315_1315516588408972593_n.jpg',
+            'https://img0.pixhost.to/images/521/525528320_459695234_837416981833897_5384892348483456631_n.jpg',
+            'https://img0.pixhost.to/images/521/525528322_459697203_835939461981649_8147037428605680021_n.jpg',
+            'https://img0.pixhost.to/images/521/525528326_459832558_837413255167603_4184040128013176872_n.jpg',
+            'https://img0.pixhost.to/images/521/525528329_459875078_837979605110968_8977563910239281625_n.jpg',
+            'https://img0.pixhost.to/images/521/525528334_459889186_836054078636854_2727237020854237474_n.jpg',
+            'https://img0.pixhost.to/images/521/525528335_459904820_836054085303520_47855935501902456_n.jpg',
+            'https://img0.pixhost.to/images/521/525528339_459964082_837566691818926_3554546834123124252_n.jpg',
+            'https://img0.pixhost.to/images/521/525528344_460001752_837415888500673_6275151488911284595_n.jpg',
+            'https://img0.pixhost.to/images/521/525528349_460010657_837566678485594_6482429051828795949_n.jpg',
+            'https://img0.pixhost.to/images/521/525528352_460059823_836169118625350_8681960060627095332_n.jpg',
+            'https://img0.pixhost.to/images/521/525528363_460061838_837566008485661_3527551258293049823_n.jpg',
+            'https://img0.pixhost.to/images/521/525528367_460063052_837368581838737_9019845611337877576_n.jpg',
+            'https://img0.pixhost.to/images/521/525528371_460069325_837416061833989_1392143318971318618_n.jpg',
+            'https://img0.pixhost.to/images/521/525528375_460073832_837565931819002_3549677301074057038_n.jpg',
+            'https://img0.pixhost.to/images/521/525528376_460073861_837413238500938_2536836800481449097_n.jpg',
+            'https://img0.pixhost.to/images/521/525528379_460073978_837976875111241_7169081433343149971_n.jpg',
+            'https://img0.pixhost.to/images/521/525528386_460074914_837368618505400_466142042665666716_n.jpg',
+            'https://img0.pixhost.to/images/521/525528395_460075334_837415865167342_5291975143468570011_n.jpg',
+            'https://img0.pixhost.to/images/521/525528401_460077069_837368565172072_5590804764099600335_n.jpg',
+            'https://img0.pixhost.to/images/521/525528414_460078088_837976758444586_2381563978053406210_n.jpg',
+            'https://img0.pixhost.to/images/521/525528418_460078106_836169138625348_2707520783199454475_n.jpg',
+            'https://img0.pixhost.to/images/521/525528424_460085307_837976775111251_781356316404241565_n.jpg',
+            'https://img0.pixhost.to/images/521/525528428_460087220_837976861777909_9065106497003612244_n.jpg',
+            'https://img0.pixhost.to/images/521/525528436_460088294_837979541777641_2865221602106825376_n.jpg',
+            'https://img0.pixhost.to/images/521/525528448_460146571_838792415029687_6410816937556428130_n.jpg',
+            'https://img0.pixhost.to/images/521/525528457_460166758_837979551777640_2443748422905876566_n.jpg',
+            'https://img0.pixhost.to/images/521/525528460_460216973_838792651696330_7710161174474568321_n.jpg',
+            'https://img0.pixhost.to/images/521/525528466_460226972_837413815167547_6138664484459281815_n.jpg',
+            'https://img0.pixhost.to/images/521/525528478_460301483_837976808444581_8839217854501113248_n.jpg',
+            'https://img0.pixhost.to/images/521/525528487_460335935_838792548363007_2254310707854496784_n.jpg',
+            'https://img0.pixhost.to/images/521/525528491_460342664_838793835029545_4196749516748173152_n.jpg',
+            'https://img0.pixhost.to/images/521/525528494_460351048_838793765029552_1065462771060463685_n.jpg',
+            'https://img0.pixhost.to/images/521/525528495_460395051_838792205029708_7358408358251769440_n.jpg',
+            'https://img0.pixhost.to/images/521/525528500_460413091_838793985029530_1740144182673581_n.jpg',
+            'https://img0.pixhost.to/images/521/525528509_460434075_838792448363017_4672042892091246888_n.jpg',
+            'https://img0.pixhost.to/images/521/525528523_460435675_838793641696231_3089093948161102008_n.jpg',
+            'https://img0.pixhost.to/images/521/525528531_460460983_837979608444301_4544606004816721654_n.jpg',
+            'https://img0.pixhost.to/images/521/525528535_460498061_838792585029670_5326440121894741141_n.jpg',
+            'https://img0.pixhost.to/images/521/525528540_460498796_838792355029693_5392285745830850726_n.jpg',
+            'https://img0.pixhost.to/images/521/525528543_460500892_838792531696342_5539168838598061394_n.jpg',
+            'https://img0.pixhost.to/images/521/525528547_460532836_838792478363014_6700390150544852841_n.jpg',
+            'https://img0.pixhost.to/images/521/525528551_460575375_838792395029689_9158222108400714511_n.jpg',
+            'https://img0.pixhost.to/images/521/525528554_460577590_838792328363029_7634213466268273063_n.jpg',
+            'https://img0.pixhost.to/images/521/525528556_460582021_838794021696193_3192347293634076914_n.jpg',
+            'https://img0.pixhost.to/images/521/525528561_460634934_838792291696366_4310269235621720912_n.jpg',
+            'https://img0.pixhost.to/images/521/525528570_460940423_842471577995104_4601055839821812178_n.jpg',
+            'https://img0.pixhost.to/images/521/525528578_461152154_842470544661874_6069719278984532962_n.jpg',
+            'https://img0.pixhost.to/images/521/525528580_461169929_842470501328545_7082622321107929402_n.jpg',
+            'https://img0.pixhost.to/images/521/525528582_461212672_842470484661880_4401366158136348621_n.jpg',
+            'https://img0.pixhost.to/images/521/525528586_461259271_842470641328531_6621803251734463191_n.jpg',
+        );
+        $unit_of_measurement = ['gói', 'thùng', 'chai', 'lon', ];
+        $faker = Faker::create();
+
+        foreach ($pics as $pic) {
+            $randomKey = array_rand($unit_of_measurement);
+            $tt = $faker->sentence($nbWords = 10, $variableNbWords = true);
+            $product = Product::create([
+                'name' => $tt,
+                'slug' => Str::slug($tt), 
+                'description' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+                'price' => rand(1 , 100) * 1000,
+                'cost_price' => rand(1 , 100) * 500,
+                'discount' => rand(0 , 7) * 5,
+                'quantity' => rand(50, 500),
+                'unit_of_measurement' => $unit_of_measurement[$randomKey],
+                'image_url' => $pic
+            ]);
+            $product->categories()->attach( rand( 1,7 ) );
+        }
+    }
+}

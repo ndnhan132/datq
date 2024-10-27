@@ -1,0 +1,15 @@
+php artisan make:model Category -ms
+php artisan make:model Product -ms
+php artisan make:model Order -ms
+php artisan make:model Cart -ms
+php artisan make:model Notification -ms
+
+php artisan make:migration create_category_product_table
+
+ php artisan migrate:fresh --seed
+
+
+
+php artisan make:controller frontend/HomeController
+php artisan make:controller frontend/CartController
+
