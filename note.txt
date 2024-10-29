@@ -12,4 +12,22 @@ php artisan make:migration create_category_product_table
 
 php artisan make:controller frontend/HomeController
 php artisan make:controller frontend/CartController
+php artisan make:controller frontend/OrderController
 
+php artisan make:controller frontend/InvoiceController
+
+php artisan make:model Invoice -ms
+php artisan make:migration create_order_product_table
+php artisan make:migration create_invoice_items_table
+
+
+Log::emergency()
+Log::alert()
+Log::critical()
+Log::error()
+Log::warning()
+Log::notice()
+Log::info()
+Log::debug()
+
+php artisan make:model OrderProduct

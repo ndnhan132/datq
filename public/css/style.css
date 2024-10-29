@@ -1,7 +1,7 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Helvetica Neue, sans-serif;
     background-color: #f2f1f6;
-    background-color: #fff;
+    background-color: #F7F7F7;
     font-size: 14px;
 }
 
@@ -41,12 +41,44 @@ a {
 
 .old-price {
     text-decoration: line-through;
-
+    
+}
+.old-price ,
+.new-price {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.vnd {}
+.vnd {
+    top: -.1em;
+    position: relative;
+    /* font-size: 75%; */
+    line-height: 0;
+    vertical-align: baseline;
+    margin-left: 2px;
+}
+
+.white-wrapbox {
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 4px;
+}
+.btn-transparent {
+    background: transparent;
+    border: none;
+}
 
 
+textarea::-webkit-scrollbar {
+    width: 3px;
+}
+
+
+/* ------------------------------------------------------------- */
 
 .header-wrap .header-action .header-action-item::before {
     content: "";
@@ -172,7 +204,7 @@ a {
 
 
 
-
+/* ------------------------------------------------------------- */
 /* product card */
 .main-product-item {
     border-radius: 7px;
@@ -311,9 +343,23 @@ a {
     font-size: 13px;
 }
 
+/* ------------------------------------------------------------- */
 
-.content-cart-detail {
-    font-size: 13px;
+#cart_detail_content{
+    background-color: #F2F5F9;
+    /* font-size: 13px; */
+    color: #333333 ;
+}
+
+#cart_detail_content .cart-header {
+}
+#cart_detail_content .cart-header h2{
+    color: #333333;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    margin: 0px;
+    padding: 5px 0px;
 }
 
 .cart-policy {
@@ -328,7 +374,7 @@ a {
 
 .cart-policy small {
     display: block;
-    width: 20px;
+    width: 25px;
     height: 20px;
     border: 2px solid #2199c4;
     position: relative;
@@ -337,13 +383,130 @@ a {
 
 .cart-policy small:before {
     content: "";
-    width: 12px;
+    width: 11px;
     height: 6px;
     display: block;
     border-left: 2px solid #2199c4;
     border-bottom: 2px solid #2199c4;
     transform: rotate(-45deg);
     position: absolute;
-    top: 4px;
-    left: 2px
+    top: 3px;
+    left: 3px
 }
+
+.cart-order-form {
+    
+}
+.cart-order-form .order-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 8px 4px;
+}
+.cart-order-form .order-form-row label {
+    margin-bottom: 4px;
+    font-weight: normal;
+    color: #444;
+}
+.cart-order-form .order-form-row label span {
+    color: red;
+    padding-left: 2px;
+}
+
+.cart-order-form .order-form-row .form-text-error {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.66;
+    letter-spacing: 0.03333em;
+    text-align: left;
+    margin-top: 3px;
+    margin-right: 14px;
+    margin-bottom: 0px;
+    margin-left: 0px !important;
+    color: rgb(211, 47, 47);
+}
+
+.cart-order-form .order-form-row textarea,
+.cart-order-form .order-form-row input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 5px;
+    border: 2px solid #e1e1e1;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    height: auto;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #313131;
+}
+.cart-order-form .order-form-row textarea:focus,
+.cart-order-form .order-form-row input[type="text"]:focus {
+    color: #212529;
+    background-color: #fff;
+    border: 2px solid rgba(67 192 228 / 100%);
+    /* border: 2px solid rgb(237, 28, 36); */
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(67 192 228 / 20%);
+    /* box-shadow: 0 0 0 3px rgba(237 28 36 / 50%); */
+}
+
+.content-cart-detail .old-price{
+    font-size: 12px;
+    --bs-text-opacity: 1;
+    color: #6c757d !important;
+}
+.content-cart-detail .item-price{
+}
+.content-cart-detail .box-head,
+.cart-order-form .box-head {
+    font-size: 18px;
+    line-height: 32px;
+}
+.row-total-amount {
+    color: #0000008a;
+    /* font-size: 13px; */
+}
+.row-total-amount .purchase-total {
+    color: rgb(237, 28, 36);
+    font-size: 16px;
+}
+.payment-method {
+    flex-flow: wrap;
+    width: 300px;
+}
+.payment-method  .payment-box {
+    align-items: center;
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    background-color: #f2f5f9;
+    /* border: 2px solid #ed1c24; */
+    border: 2px solid #2199c4;
+    border-radius: 5px;
+    padding: 4px 4px;
+}
+ 
+.payment-method  .payment-box img {
+    width: 48px;
+    height: 48px;
+}
+
+.payment-method  .payment-box input[type="radio"] {
+    height: 20px;
+    width: 20px;
+    min-width: 20px;
+    border-radius: 18px;
+    display: block;
+    border: 2px solid #aaa;
+    transition: all 250ms ease;
+    margin-right: 10px;
+    position: relative;
+    margin: 10px 8px;
+}
+
+
+/* ------------------------------------------------------------- */
+

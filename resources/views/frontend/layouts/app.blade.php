@@ -8,22 +8,26 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" >
     <link rel="stylesheet" href="{{ asset('css/style.css') }}?v{{ time() }}" rel="stylesheet" >
-
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
 </head>
 <body>
     @include('frontend.layouts.header')
     @include('frontend.layouts.navbar')
 
-    <div class="content">
+    <main class="content">
         @yield('content')
-    </div>
+    </main>
     @include('frontend.layouts.footer')
 
 
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/bootstrap.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('css/fontawesome-all.min.css') }}" type="text/javascript"></script>
 
+    <script src="{{ asset('js/bootstrap.js') }}" type="text/javascript"></script>
+    
+    
+    <link rel="stylesheet" href="{{ asset('css/fontawesome-all.min.css') }}" rel="stylesheet" >
+    <!-- <link rel="stylesheet" href="{{ asset('css/all.css') }}" rel="stylesheet" > -->
+
+    
     <script src="{{ asset('js/app.js') }}?v{{ time() }}" type="text/javascript"></script>
 
 </body>

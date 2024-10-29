@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\OrderController;
 
 
 
@@ -31,6 +32,8 @@ use App\Http\Controllers\Frontend\CartController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/gio-hang', [CartController::class, 'showCart'])->name('cart.showCart');
+Route::post('/cart/store-order', [OrderController::class, 'storeOrder'])->name('order.storeOrder');
+Route::get('/dat-hang-thanh-cong/{order_id}', [OrderController::class, 'orderComplete'])->name('order.orderComplete');
 
 
 

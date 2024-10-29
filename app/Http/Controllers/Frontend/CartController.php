@@ -21,20 +21,20 @@ class CartController extends Controller
         $carts = session()->get('carts', []);
         $cartIds = array_keys($carts);
         $cartProducts = Product::whereIn('id', $cartIds)->get();
-        $subTotal = calEstimatedAmount ( $cartProducts, $carts );
-
-        return view('frontend.cart.show-cart', compact('cartProducts', 'subTotal' ) );
+        $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
+        $shippingFee = 0;
+        
+        return view('frontend.cart.show-cart', compact('cartProducts', 'totalAmountAfterDiscount', 'shippingFee' ) );
     }
 
     public function addToCart(Request $request, $productId)
     {
-
         $carts = $request->session()->get('carts', []);
 
-        if ( isset( $carts[$productId] ) )
-        {
+        if ( isset( $carts[$productId] ) ) {
             $carts[$productId]['quantity'] += 1;
-        } else {
+        } 
+        else {
             $product = Product::findOrFail($productId);
             $carts[$productId] = [
                 'name'  => $product->name,
@@ -70,14 +70,14 @@ class CartController extends Controller
         $carts = session()->get('carts', []);
         $cartIds = array_keys($carts);
         $cartProducts = Product::whereIn('id', $cartIds)->get();
-        $subTotal = calEstimatedAmount ( $cartProducts, $carts );
+        $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
 
-        return view('frontend.cart.hover-header-cart', compact('cartProducts', 'subTotal' ) );
+        return view('frontend.cart.hover-header-cart', compact('cartProducts', 'totalAmountAfterDiscount' ) );
     }
  
     function updateCart(Request $request)
     {   
-        $validated = $request->validate([
+        $validator = $request->validate([
             'prd' => 'required|integer|min:0',
             'qty' => 'required|integer|min:0',
         ]);
@@ -95,16 +95,22 @@ class CartController extends Controller
             $request->session()->put('carts', $carts );
         }
 
-        $subTotal = calEstimatedAmount ( $cartProducts, $carts );
-
-        
-
         $newCarts = $request->session()->get('carts') ?? [];
+        $cartIds = array_keys($newCarts);
+        $cartProducts = Product::whereIn('id', $cartIds)->get();
+        $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
+        $totalAmountAfterDiscountText =  convertMoneyToStr($totalAmountAfterDiscount);
+
+        $totalAmountAfterDiscountTextTmp = $totalAmountAfterDiscountText;
+
+
         $cartCount = count($newCarts);
         return response()->json([
             'status'    => 'success',
             'cartCount' => $cartCount,
-            'subTotal'  => $subTotal,
+            'totalAmountAfterDiscountTextTmp'  => $totalAmountAfterDiscountTextTmp,
+            'totalAmountAfterDiscountText'  => $totalAmountAfterDiscountText,
+            'shippingFee'   => 0,
         ]);
     }
 
@@ -114,18 +120,20 @@ class CartController extends Controller
         $carts = session()->get('carts', []);
         $cartIds = array_keys($carts);
         $cartProducts = Product::whereIn('id', $cartIds)->get();
-        $subTotal = calEstimatedAmount ( $cartProducts, $carts );
+        $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
+        $shippingFee   = 0;
 
-        return view('frontend.cart.show-cart-list', compact( 'cartProducts' , 'subTotal' ) );
+        return view('frontend.cart.show-cart-list', compact( 'cartProducts' , 'totalAmountAfterDiscount', 'shippingFee' ) );
     }
 
     function showCartOrder(Request $request) {
         $carts = session()->get('carts', []);
         $cartIds = array_keys($carts);
         $cartProducts = Product::whereIn('id', $cartIds)->get();
-        $subTotal = calEstimatedAmount ( $cartProducts, $carts );
+        $totalAmountAfterDiscount = calTotalAmountAfterDiscount( $cartProducts, $carts );
+        $shippingFee   = 0;
 
-        return view('frontend.cart.cart-order', compact( 'cartProducts' , 'subTotal' ) );
+        return view('frontend.cart.cart-order', compact( 'cartProducts' , 'totalAmountAfterDiscount' , 'shippingFee' ) );
     }
 
 }

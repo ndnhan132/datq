@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string("name");
             $table->string("slug");
             $table->text("description")->nullable();
-            $table->float('price')->default(0);
-            $table->float('cost_price')->default(0);
-            $table->float('discount')->default(0);
+            $table->integer('price')->default(0);
+            $table->integer('cost_price')->default(0);
+            $table->integer('discount')->default(0);
             $table->integer('quantity')->default(0);
             $table->string("unit_of_measurement");
             $table->string('image_url')->nullable();

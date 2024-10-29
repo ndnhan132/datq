@@ -17,7 +17,7 @@
     </li>
     @endforeach
 </ul>
-<div class="sub-total">Tổng tiền tạm tính: <span>{{ convertMoneyToStr($subTotal) }} đ</span></div>
+<div class="total-amount-after-discount">Tổng tiền tạm tính: <span>{{ convertMoneyToStr($totalAmountAfterDiscount) }} đ</span></div>
 <div class="d-flex justify-content-between">
     <div>Có tổng số {{ $cartProducts->count() }} sản phẩm </div>
     <div><a href="{{ route('cart.showCart') }}" class="btn btn-sm btn-success" >Thanh toán ngay</a></div>

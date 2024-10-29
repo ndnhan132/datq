@@ -22,7 +22,8 @@ jQuery(document).ready(function() {
 
     $('.add_to_cart').on('click', addToCart );
     $('.qty_update').on('click', cartQtyUpdate );
-    $('.btn_cart_order').on('click', cart_order );
+    // $('.btn_cart_order').on('click', cart_order );
+    // $('.btn_back_cart_detail').on('click', loadShowDetailCart );
 
 
     function addToCart (e) {
@@ -50,6 +51,7 @@ jQuery(document).ready(function() {
         }
     }
     function loadShowDetailCart () {
+        console.log('loadShowDetailCart');
         if($('#cart_detail_content')){
             $('#cart_detail_content').load("/cart/show-detail-cart-content");
         }
@@ -86,12 +88,14 @@ jQuery(document).ready(function() {
             url: '/cart/update-cart',
             type: 'POST',
             dataType: 'json',
-            // data: { prd: $(this).data('prd'), qty: qtycount },
             data: { prd: $(this).data('prd'), qty: qtycount },
         })
         .done(function (data) {
             if(data.status == "success") {
                 $('#cart_count').text(data.cartCount);
+                $('#total_amount_after_discount_text_tmp').text(data.totalAmountAfterDiscountTextTmp);
+                $('#total_payable_text').text(data.totalAmountAfterDiscountText);
+                $('#shipping_fee').text(data.shippingFee);
                 loadHeaderCart();
             }
             else {
