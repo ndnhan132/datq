@@ -50,6 +50,7 @@ Route::get('/cart/show-detail-cart-content', [CartController::class, 'showDetail
 Route::get('/cart/show-cart-order', [CartController::class, 'showCartOrder'])->name('cart.showCartOrder');
 
 Route::post('/cart/update-cart', [CartController::class, 'updateCart'])->name('cart.updateCart');
+Route::post('/product/live-search', [HomeController::class, 'liveSearch'])->name('home.liveSearch');
  
 
 

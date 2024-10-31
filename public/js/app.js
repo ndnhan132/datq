@@ -24,7 +24,9 @@ jQuery(document).ready(function() {
     $('.qty_update').on('click', cartQtyUpdate );
     // $('.btn_cart_order').on('click', cart_order );
     // $('.btn_back_cart_detail').on('click', loadShowDetailCart );
+    $('#live_search_input').on('keyup', liveSearch );
 
+    
 
     function addToCart (e) {
         e.preventDefault();
@@ -107,7 +109,27 @@ jQuery(document).ready(function() {
         });
     }
 
+    function liveSearch () {
 
+        
+        $.ajax({
+            url: $(this).data('action'),
+            type: 'post',
+            dataType: 'json',
+            data: { key_search: $(this).val() },
+        })
+        .done(function (data) {
+            if(data.status == "success") {
+                console.log(data);
+            }
+            else {
+                
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+        });
+    }
 
 
 

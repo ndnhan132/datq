@@ -12,10 +12,17 @@
 </head>
 <body>
     @include('frontend.layouts.header')
-    @include('frontend.layouts.navbar')
 
-    <main class="content">
-        @yield('content')
+
+    <main class="container content position-relative" id="main_content">
+        <div id="main_content_left" class="content-menu" style="">
+            @include('frontend.layouts.main-sidebar')
+        </div>
+        <div id="w-100 mx-auto">
+            <div id="main_content_right">
+                @yield('content')
+            </div>
+        </div>
     </main>
     @include('frontend.layouts.footer')
 

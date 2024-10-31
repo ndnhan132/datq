@@ -1,11 +1,11 @@
 @foreach ($chinaCategories as $cat)
-    <?php $products = $cat->products->take(12); ?>
-<section class="bg-white product_main mb-4 home-box-section  ">
+    <?php $products = $cat->products->take(10); ?>
+<section class="bg-white  white-wrapbox product_main mb-4 home-box-section  ">
     <div class="w-100">
         <div class="d-flex justify-content-between align-items-center">
             <h2>{{ $cat->name }}</h2>
         </div>
-        <div class="row">
+        <div class="d-flex flex-wrap p-1">
             @foreach ($products as $prd)
 
 

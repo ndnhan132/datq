@@ -1,6 +1,6 @@
  
 
-<div class="col col-sm-2 ">
+<div class="col- col-sm-2- " style="width: 20%;">
     <div class="my-2 p-3 main-product-item">
 
             <div class="w-100 mb-2 position-relative product-thumbnail">

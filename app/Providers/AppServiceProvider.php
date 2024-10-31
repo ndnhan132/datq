@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\Category;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -24,23 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $request = request();
-
-        // dump($request->session()->all());
-
-        // dump(session('carts', []) );
-        // dump(session());
-        // dump(Session::all());
-
-        
-        // $cartItemCount  = Session::get('carts', []);
-        // dump( $cartItemCount );
-        
-        // $cartItemCount2  = session()->get('carts', []);
-        // dump( $cartItemCount2 );
-        // $cartItemCount  = 10;
-        // dd(Session::get('carts', []));
-
-        // View::share('cartItemCount', $cartItemCount );
+        $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
+        View::share('chinaCategories', $chinaCategories );
     }
 }
