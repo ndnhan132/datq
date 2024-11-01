@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->integer('parent_id')->unsigned()->default(0);
             $table->boolean('public')->default(1);
-            $table->string('img')->nullable();
+            $table->unsignedBigInteger('photo_id')->nullable()->default(0)->references('id')->on('photos')->onDelete('set null');
             $table->timestamps();
         });
     }

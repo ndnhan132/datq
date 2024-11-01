@@ -19,6 +19,7 @@ php artisan make:controller frontend/InvoiceController
 php artisan make:model Invoice -ms
 php artisan make:migration create_order_product_table
 php artisan make:migration create_invoice_items_table
+php artisan make:migration create_role_user_table
 
 
 Log::emergency()
@@ -31,3 +32,13 @@ Log::info()
 Log::debug()
 
 php artisan make:model OrderProduct
+php artisan make:controller Admin/LoginController
+php artisan make:controller AccountController
+php artisan make:model Role -ms
+php artisan make:model Warehouse -ms
+php artisan make:migration create_role_user_table
+php artisan make:migration create_cart_product_table
+php artisan make:model Photo -ms
+php artisan make:migration create_photo_product_table
+php artisan make:model History -m
+php artisan make:model Option -m

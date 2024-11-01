@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT'); // ID của người nhận thông báo
+            $table->string('title'); // Tiêu đề thông báo
+            $table->text('message'); // Nội dung thông báo
+            $table->boolean('is_read')->default(false); // Trạng thái đã đọc
             $table->timestamps();
         });
     }
