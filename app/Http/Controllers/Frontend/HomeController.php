@@ -19,9 +19,18 @@ class HomeController extends Controller
     }
 
     public function liveSearch(Request $request) {
-        $keyText = $request->input('live_search');
-        $searchProducts = Product::where('name', 'LIKE', '%'.$keyText.'%')->get();
-        return response()->json($searchProducts);
-    }
+        $keyText = $request->get('key_search');
+        // dd($request->all()   );
+        $searchProducts = Product::where('name', 'LIKE', '%'.$keyText.'%')->get()->take(6);
+        // return response()->json($searchProducts);
+        // return view('frontend.layouts.live-search', compact('searchProducts') );
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order created successfully!',
+            // 'order' => $order,
+            'searchHtml' => view('frontend.layouts.live-search', compact('searchProducts') )->render()  ,
+        ], 201);
 
+    }
+ 
 }

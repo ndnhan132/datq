@@ -74,11 +74,11 @@ class OrderController extends Controller
 
  
             foreach ($cartProducts as $cartPrd) {
-                $order->products()->attach( $cartPrd->id, [
-                    'quantity' => $carts[$cartPrd->id]['quantity'],
-                    'cost_price' => $cartPrd->cost_price,
-                    'final_price' => priceAfterDiscount( $cartPrd->price , $cartPrd->discount ),
-                ]);
+                // $order->products()->attach( $cartPrd->id, [
+                //     'quantity' => $carts[$cartPrd->id]['quantity'],
+                //     'cost_price' => $cartPrd->cost_price,
+                //     'final_price' => priceAfterDiscount( $cartPrd->price , $cartPrd->discount ),
+                // ]);
             }
 
 

@@ -25,7 +25,9 @@ jQuery(document).ready(function() {
     // $('.btn_cart_order').on('click', cart_order );
     // $('.btn_back_cart_detail').on('click', loadShowDetailCart );
     $('#live_search_input').on('keyup', liveSearch );
-
+    $('#live_search_input').blur(function() {
+        $('#live_search_result').html('');
+    });
     
 
     function addToCart (e) {
@@ -110,17 +112,23 @@ jQuery(document).ready(function() {
     }
 
     function liveSearch () {
+        if($('#live_search_input').val().length) {
+            console.log($('#live_search_input').val().length);
+            console.log('remove');
+             $('#live_search_result').html(); 
+        }
+        console.log($('#live_search_input').val());
 
-        
         $.ajax({
             url: $(this).data('action'),
             type: 'post',
             dataType: 'json',
-            data: { key_search: $(this).val() },
+            data: { key_search: $('#live_search_input').val() },
         })
         .done(function (data) {
             if(data.status == "success") {
-                console.log(data);
+                // $('#live_search_result').html("<h1>RRRR</h1>")
+                $('#live_search_result').html(data.searchHtml)
             }
             else {
                 
