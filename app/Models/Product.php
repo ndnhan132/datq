@@ -19,4 +19,8 @@ class Product extends Model
                     ->withPivot('quantity', 'cost_price', 'final_price') // Trường trung gian
                     ->withTimestamps();
     }
+    public function photos()
+    {
+        return $this->belongsToMany(Photo::class, 'photo_product');
+    }
 }

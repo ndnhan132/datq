@@ -24,13 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $chinaCategories;
-        try {
-            $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
-        }
-        catch(Exception $e) {
-            echo 'Message: ' .$e->getMessage();
-        }
-        View::share('chinaCategories', $chinaCategories );
+
+        // $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
+        // View::share('chinaCategories', $chinaCategories );
     }
 }

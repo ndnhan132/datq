@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\AccountController;
 
 
 
@@ -13,7 +14,21 @@ use App\Http\Controllers\Frontend\OrderController;
 
 
 
+// Route::group([
+//     'name' => 'account.', 
+//     'prefix' => 'tai-khoan', 
+//     // 'middleware' => 'auth'
+//     'middleware' => 'web'
+// ], 
 
+Route::name('account.')->prefix('/tai-khoan')->middleware('web')->group(function(){
+    Route::get('/', [AccountController::class, 'getLogin'])->name('getLogin');
+    Route::post('/', [AccountController::class, 'postLogin'])->name('postLogin');
+    Route::get('/dang-xuat', [AccountController::class, 'logout'])->name('logout');
+    
+
+
+});
 
 
 
