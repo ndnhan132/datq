@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/template/css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/public/template/css/main.css') }}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -66,15 +66,15 @@
         </div>
     </section>
     <!-- Essential javascripts for application to work-->
-    <script src="{{ asset('/template/js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('/template/js/popper.min.js') }}"></script>
-    <script src="{{ asset('/template/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('/template/js/main.js') }}"></script>
+    <script src="{{ asset('/public/template/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('/public/template/js/popper.min.js') }}"></script>
+    <script src="{{ asset('/public/template/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/public/template/js/main.js') }}"></script>
 
 
 
     <!-- The javascript plugin to display page loading on top-->
-    <script src="{{ asset('/template/js/plugins/pace.min.js') }}"></script>
+    <script src="{{ asset('/public/template/js/plugins/pace.min.js') }}"></script>
 
     <script type="text/javascript">
         // Login Page Flipbox control
