@@ -30,17 +30,17 @@
                 <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Đăng nhập</h3>
                 <div class="form-group">
                     <label class="control-label">Tài khoản</label>
-                    <input class="form-control" type="text" placeholder="Tài khoản" autofocus name="username" value="adminnhan">
+                    <input class="form-control" type="text" placeholder="Tài khoản" autofocus name="username" value="{{ Cookie::get('log_username') }}">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Mật khẩu</label>
-                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password" value="T@#123456">
+                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password" value="{{ Cookie::get('log_password') }}">
                 </div>
                 <div class="form-group">
                     <div class="utility">
                         <div class="animated-checkbox">
                             <label>
-                                <input type="checkbox" name="remember"><span class="label-text">Ghi nhớ đăng nhập</span>
+                                <input type="checkbox" name="remember" {{ Cookie::has('log_username') ? 'checked' : '' }} ><span class="label-text">Ghi nhớ đăng nhập</span>
                             </label>
                         </div>
                         <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Quên mật khẩu ?</a></p>

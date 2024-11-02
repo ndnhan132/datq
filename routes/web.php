@@ -24,7 +24,7 @@ use App\Models\History;
 
 
 
-Route::name('account.')->prefix('/tai-khoan')->middleware(['web', 'auth'])->group(function(){
+Route::name('account.')->prefix('/tai-khoan')->middleware(['web'])->group(function(){
     Route::get('/', [AccountController::class, 'getLogin'])->name('getLogin');
     Route::post('/', [AccountController::class, 'postLogin'])->name('postLogin');
     Route::get('/dang-xuat', [AccountController::class, 'logout'])->name('logout');
@@ -40,12 +40,12 @@ Route::get('/124', function () {
 });
 
 
-// Route::get('/quan-ly/dashboard', [AccountController::class, 'getDashboard'])->name('getDashboard');
-Route::get('/quan-ly/dashboard', function () {
-    dump(session()->all());
-    Log::info('/quan-ly/dashboard', session()->all());
+Route::get('/quan-ly/dashboard', [AccountController::class, 'getDashboard'])->name('getDashboard');
+// Route::get('/quan-ly/dashboard', function () {
+//     dump(session()->all());
+//     Log::info('/quan-ly/dashboard', session()->all());
 
-})->name('getDashboard');
+// })->name('getDashboard');
 
 
 Route::get('/clear-cache', function() {
@@ -82,12 +82,7 @@ Route::get('/test', function() {
     // dump($h);
 });
 
-Route::get('/route-list', function () {
-    $routes = collect(\Route::getRoutes())->map(function ($route) {
-        echo ' >>>>>>>>>>>>> '.$route->methods()[0] . ' --------- ' .$route->uri() . ' --------- ' . $route->getActionName()  .'<br>';
-        return $route->uri() . '--' . $route->getName() .'--' . $route->getActionName() ;
-    });
-});
+ 
 
 Route::group(['middleware' => 'web'], function () {
 

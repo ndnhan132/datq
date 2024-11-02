@@ -15,13 +15,7 @@ class HomeController extends Controller
 {
     public function index() {
 
-        $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
-
-        $user = User::where('id', 3)->first();
-        Auth::login($user);
-
-        dump(Auth::user());
-        return view('frontend.home.index', compact('chinaCategories'  ) );
+        return view('frontend.home.index' );
     }
 
     public function liveSearch(Request $request) {

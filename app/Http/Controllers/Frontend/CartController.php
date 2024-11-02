@@ -24,8 +24,6 @@ class CartController extends Controller
         $cartProducts = Product::whereIn('id', $cartIds)->get();
         $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
         $shippingFee = 0;
-
-        dump(Auth::user());
         
         return view('frontend.cart.show-cart', compact('cartProducts', 'totalAmountAfterDiscount', 'shippingFee' ) );
     }

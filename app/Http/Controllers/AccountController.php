@@ -15,17 +15,12 @@ class AccountController extends Controller
 {
 
     function getLogin() {
-
-
-        dump( Auth::id() );
-
         $usename = 'adminnhan';
         $password = 'T@#123456'; 
 
 
 
         $session = session()->all();
-
         dump($session);
         if(Auth::check()){
             dd('getLogin');
@@ -36,8 +31,6 @@ class AccountController extends Controller
     }
 
     function postLogin(Request $request) {
-
-        // dd($request);
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
@@ -55,51 +48,55 @@ class AccountController extends Controller
         if ($validator->fails()) {
             dd($validator->errors());
         }
+        
+        $username = $request->input('username');
+        $password = $request->input('password');
         $remember = ($request->input('remember')) ? true : false;
-        $credentials = $request->only('username', 'password');
-
         
+        $user = User::where('username', $username)->first();
         
-        if( Auth::attempt($credentials, $remember) ){
-            Log::info(session()->all());
-            // $id = Auth::id();
-            // dump($id);
-            // Auth::loginUsingId($id);
+        dump(session()->all());
+        dump($user && Hash::check($password, $user->password));
+        if ($user && Hash::check($password, $user->password)) {
+            Session::put('user', $user);
+            Log::info('Đăng nhập thành công', session()->all());
 
-            // $user = Auth::user();
-            // dump( $user->getAuthIdentifier() );
-
-            // dump( $session = session()->all() );
-            // $request->session()->regenerate();
-            dump( $session = session()->all() );
-            // session()->put( $session );
-            // foreach ($session as $key => $value) {
-
-            // }
-            // dd('đăng nhập thành công');
-
-            // return response()->json([
-            //     'status' => session()->all(),
-            // ], 201);
-            return redirect()->route('getDashboard');
-            // return redirect()->route('account.getLogin');
-            
-        }else{
-            return view('backend.login.index');
+            if ( $remember ) {
+                Cookie::queue('log_username', $request->username, 60 * 24 * 30); // 30 ngày
+                Cookie::queue('log_password', $request->password, 60 * 24 * 30); // 30 ngày
+            }
+            return redirect()->route('account.getDashboard');    
+            // return redirect()->route('getDashboard');
         }
+
+        return redirect()->route('account.getLogin');
+
+        // return view('backend.login.index');
+                // $credentials = $request->only('username', 'password');
+        // if( Auth::attempt($credentials, $remember) ){
+        //     return redirect()->route('getDashboard');
+        // }
     }
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-    
-        if(Auth::check()){
-            // return redirect()->route('admin.getDashboard');
-            dd('logout');
-        }else{
-            return view('backend.login.index');
-        }
+
+        Session::forget('user');
+
+        // Xóa cookie nếu có
+        Cookie::queue(Cookie::forget('username'));
+        Cookie::queue(Cookie::forget('password'));
+
+        return redirect()->route('account.getLogin');
+        
+        // Auth::logout();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        // if(Auth::check()){
+        //     // return redirect()->route('admin.getDashboard');
+        //     dd('logout');
+        // }else{
+        //     return view('backend.login.index');
+        // }
     }
 
     public function getDashboard() {
