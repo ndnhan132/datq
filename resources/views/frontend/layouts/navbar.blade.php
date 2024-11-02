@@ -13,6 +13,17 @@
             </div>
 
 
+            <div>
+                <div >
+                    <ul class="navbar-nav">
+                        <li class="nav-item_">
+                            <a class="nav-link" href="{{ route('account.getLogin') }}">Đăng nhập</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            </div>
 
 
           

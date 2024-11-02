@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -23,6 +24,8 @@ class CartController extends Controller
         $cartProducts = Product::whereIn('id', $cartIds)->get();
         $totalAmountAfterDiscount = calTotalAmountAfterDiscount ( $cartProducts, $carts );
         $shippingFee = 0;
+
+        dump(Auth::user());
         
         return view('frontend.cart.show-cart', compact('cartProducts', 'totalAmountAfterDiscount', 'shippingFee' ) );
     }

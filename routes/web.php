@@ -7,7 +7,8 @@ use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\AccountController;
 
 
-
+use Illuminate\Support\Facades\Session; 
+use App\Models\History;
 
 
 
@@ -21,13 +22,43 @@ use App\Http\Controllers\AccountController;
 //     'middleware' => 'web'
 // ], 
 
-Route::name('account.')->prefix('/tai-khoan')->middleware('web')->group(function(){
+
+
+Route::name('account.')->prefix('/tai-khoan')->middleware(['web', 'auth'])->group(function(){
     Route::get('/', [AccountController::class, 'getLogin'])->name('getLogin');
     Route::post('/', [AccountController::class, 'postLogin'])->name('postLogin');
     Route::get('/dang-xuat', [AccountController::class, 'logout'])->name('logout');
     
+});
+
+Route::get('/123', function () {
+    Session::put('test', 'testing');
+});
+
+Route::get('/124', function () {
+    dd(Session::get('test'));
+});
 
 
+// Route::get('/quan-ly/dashboard', [AccountController::class, 'getDashboard'])->name('getDashboard');
+Route::get('/quan-ly/dashboard', function () {
+    dump(session()->all());
+    Log::info('/quan-ly/dashboard', session()->all());
+
+})->name('getDashboard');
+
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:clear');
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+
+    return "Cache is cleared";
 });
 
 
@@ -35,11 +66,30 @@ Route::name('account.')->prefix('/tai-khoan')->middleware('web')->group(function
 
 
 
+Route::get('/test', function() {
+    // $sessionPath = session()->getPath();
+    
+    $sessionPath = config('session.SESSION_PATH');
 
 
+    $session = session()->all();
 
+    dump($session);
 
+    // $h = new History();
+    // $h->action = 'new History()';
+    // $h->save();
+    // dump($h);
+});
 
+Route::get('/route-list', function () {
+    $routes = collect(\Route::getRoutes())->map(function ($route) {
+        echo ' >>>>>>>>>>>>> '.$route->methods()[0] . ' --------- ' .$route->uri() . ' --------- ' . $route->getActionName()  .'<br>';
+        return $route->uri() . '--' . $route->getName() .'--' . $route->getActionName() ;
+    });
+});
+
+Route::group(['middleware' => 'web'], function () {
 
 
 
@@ -70,3 +120,4 @@ Route::post('/product/live-search', [HomeController::class, 'liveSearch'])->name
 
 
 
+});

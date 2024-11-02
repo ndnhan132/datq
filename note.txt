@@ -41,4 +41,7 @@ php artisan make:migration create_cart_product_table
 php artisan make:model Photo -ms
 php artisan make:migration create_photo_product_table
 php artisan make:model History -m
-php artisan make:model Option -m
+php artisan make:model Option -m'
+
+
+php artisan make:controller Admin/DashboardController

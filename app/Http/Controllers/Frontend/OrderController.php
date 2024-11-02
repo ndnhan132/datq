@@ -22,7 +22,7 @@ class OrderController extends Controller
                 'order_note' => 'nullable|string',
             ], [
                 'recipient_name.required' => 'Thông tin bắt buộc.',
-                'recipient_name.string' => 'Tên người nhận phải là chuỗi ký tự.',
+                'recipient_name.string' => 'Tên người nhận không hợp lệ.',
                 'recipient_name.max' => 'Tên người nhận không được vượt quá 255 ký tự.',
                 
                 'recipient_phone.required' => 'Thông tin bắt buộc.',

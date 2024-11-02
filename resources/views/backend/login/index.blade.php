@@ -20,7 +20,9 @@
     </section>
     <section class="login-content">
         <div class="logo">
-            <h1>Tanhongfood.com</h1>
+            <a href="{{ route('home') }}" style="color: #004a43; text-decoration: underline;">
+                <h1>Tanhongfood.com</h1>
+            </a>
         </div>
         <div class="login-box">
             <form class="login-form" action="{{ route('account.postLogin') }}" method="POST">
@@ -28,11 +30,11 @@
                 <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Đăng nhập</h3>
                 <div class="form-group">
                     <label class="control-label">Tài khoản</label>
-                    <input class="form-control" type="text" placeholder="Tài khoản" autofocus name="username">
+                    <input class="form-control" type="text" placeholder="Tài khoản" autofocus name="username" value="adminnhan">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Mật khẩu</label>
-                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password">
+                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password" value="T@#123456">
                 </div>
                 <div class="form-group">
                     <div class="utility">
