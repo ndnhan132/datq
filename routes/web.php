@@ -12,40 +12,21 @@ use App\Models\History;
 
 
 
+ 
 
-
-
-// Route::group([
-//     'name' => 'account.', 
-//     'prefix' => 'tai-khoan', 
-//     // 'middleware' => 'auth'
-//     'middleware' => 'web'
-// ], 
-
-
-
-Route::name('account.')->prefix('/tai-khoan')->middleware(['web'])->group(function(){
+Route::name('account.')->prefix('/dang-nhap')->middleware(['web'])->group(function(){
     Route::get('/', [AccountController::class, 'getLogin'])->name('getLogin');
     Route::post('/', [AccountController::class, 'postLogin'])->name('postLogin');
     Route::get('/dang-xuat', [AccountController::class, 'logout'])->name('logout');
     
 });
 
-Route::get('/123', function () {
-    Session::put('test', 'testing');
-});
-
-Route::get('/124', function () {
-    dd(Session::get('test'));
-});
 
 
-Route::get('/quan-ly/dashboard', [AccountController::class, 'getDashboard'])->name('getDashboard');
-// Route::get('/quan-ly/dashboard', function () {
-//     dump(session()->all());
-//     Log::info('/quan-ly/dashboard', session()->all());
 
-// })->name('getDashboard');
+
+
+
 
 
 Route::get('/clear-cache', function() {
@@ -82,7 +63,9 @@ Route::get('/test', function() {
     // dump($h);
 });
 
- 
+Route::get('/session', function() {
+    dump(session()->all());
+});
 
 Route::group(['middleware' => 'web'], function () {
 
@@ -91,6 +74,8 @@ Route::group(['middleware' => 'web'], function () {
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/gio-hang', [CartController::class, 'showCart'])->name('cart.showCart');
 Route::post('/cart/store-order', [OrderController::class, 'storeOrder'])->name('order.storeOrder');
 Route::get('/dat-hang-thanh-cong/{order_id}', [OrderController::class, 'orderComplete'])->name('order.orderComplete');

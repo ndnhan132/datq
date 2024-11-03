@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Mật khẩu</label>
-                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password" value="{{ Cookie::get('log_password') }}">
+                    <input class="form-control" type="password" placeholder="Mật khẩu" name="password" value="{{ Cookie::get('log_password') ?? 'T@#123456' }}">
                 </div>
                 <div class="form-group">
                     <div class="utility">

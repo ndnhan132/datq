@@ -1,3 +1,8 @@
+@php
+$chinaCategories = App\Models\Category::with('products')->where('parent_id', '1')->get();
+@endphp
+
+
 @foreach ($chinaCategories as $cat)
     <?php $products = $cat->products->take(10); ?>
 <section class="bg-white  white-wrapbox product_main mb-4 home-box-section  ">

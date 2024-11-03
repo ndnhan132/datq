@@ -9,28 +9,31 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
+
 use Illuminate\Support\Facades\Log;
 
 class AccountController extends Controller
 {
 
     function getLogin() {
-        $usename = 'adminnhan';
-        $password = 'T@#123456'; 
-
-
-
-        $session = session()->all();
-        dump($session);
-        if(Auth::check()){
-            dd('getLogin');
-            // return redirect()->route('admin.getDashboard');
+        if(session()->get('user')){
+            return redirect()->route('admin.getDashboard');
         }else{
             return view('backend.login.index');
         }
+
+
+        // if(Auth::check()){
+        //     dd('getLogin');
+        //     // return redirect()->route('admin.getDashboard');
+        // }else{
+        //     return view('backend.login.index');
+        // }
     }
 
     function postLogin(Request $request) {
+        
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'password' => 'required|string|max:255',
@@ -54,18 +57,17 @@ class AccountController extends Controller
         $remember = ($request->input('remember')) ? true : false;
         
         $user = User::where('username', $username)->first();
-        
-        dump(session()->all());
+
         dump($user && Hash::check($password, $user->password));
         if ($user && Hash::check($password, $user->password)) {
             Session::put('user', $user);
-            Log::info('Đăng nhập thành công', session()->all());
+            Log::info('Đăng nhập thành công '. session()->get('user')->username ); 
 
             if ( $remember ) {
                 Cookie::queue('log_username', $request->username, 60 * 24 * 30); // 30 ngày
                 Cookie::queue('log_password', $request->password, 60 * 24 * 30); // 30 ngày
             }
-            return redirect()->route('account.getDashboard');    
+            return redirect()->route('admin.getDashboard');    
             // return redirect()->route('getDashboard');
         }
 
@@ -101,9 +103,9 @@ class AccountController extends Controller
 
     public function getDashboard() {
         
-        $session = session()->all();
+        // $session = session()->all();
 
-        dump($session);
+        // dump($session);
 
 
         return view('backend.admin.dashboard.index');

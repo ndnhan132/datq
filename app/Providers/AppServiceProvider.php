@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
-        $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
-        View::share('chinaCategories', $chinaCategories );
+        // $chinaCategories = Category::with('products')->where('parent_id', '1')->get();
+        // View::share('chinaCategories', $chinaCategories );
     }
 }
 

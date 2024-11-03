@@ -44,4 +44,7 @@ php artisan make:model History -m
 php artisan make:model Option -m'
 
 
-php artisan make:controller Admin/DashboardController
+php artisan make:controller Backend/DashboardController
+php artisan make:controller Backend/CategoryController
+php artisan make:controller Backend/PhotoController
+php artisan make:controller Backend/ProductController
