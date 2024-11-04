@@ -11,8 +11,9 @@ class Photo extends Model
         return $this->belongsToMany(Product::class, 'photo_product');
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
+    
 }

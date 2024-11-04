@@ -20,7 +20,7 @@
             <span class="app-menu__label">Danh mục</span>
         </a>
     </li>
-    <li class="treeview">
+    <li class="treeview is-expanded">
         <a class="app-menu__item" href="#" data-toggle="treeview">
             <i class="app-menu__icon fa fa-laptop"></i>
             <span class="app-menu__label">Sản phẩm</span>
@@ -33,7 +33,7 @@
                 </a>
             </li>
             <li>
-                <a class="treeview-item" href="" target="_blank" rel="noopener">
+                <a class="treeview-item" href="{{ route('admin.product.create') }}" rel="noopener">
                     <i class="icon fa fa-circle-o"></i>
                     Thêm mới
                 </a>

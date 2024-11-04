@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -45,8 +46,14 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request) {
+        $categoryId = $request->input('category_id');
         $validator = Validator::make($request->all(), [
-            'category_name' => 'required|string|max:255|unique:categories,name',
+            'category_name' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('categories', 'name')->ignore($id), // Bỏ qua bản ghi hiện tại
+        ],
             'category_id'   => 'required|integer',
         ], [
             'category_name.required' => 'Thông tin bắt buộc.',
@@ -67,7 +74,7 @@ class CategoryController extends Controller
         $validated = $validator->validated();
         Log::debug($validated); 
 
-        $categoryId = $validated['category_id'];
+
         $category = Category::find($categoryId);
         $category->name = $validated['category_name'];
         $category->save();
@@ -88,6 +95,7 @@ class CategoryController extends Controller
     function delete(Request $request) {
         $categoryId = $request->input('catid');
         $category = Category::find($categoryId);
+        $category->products()->detach();
         $category->delete();
         Log::info(session()->get('user')->username.' xóa danh mục: '. 
         $category->name);

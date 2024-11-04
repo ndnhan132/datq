@@ -9,6 +9,8 @@ use App\Http\Controllers\AccountController;
 
 use Illuminate\Support\Facades\Session; 
 use App\Models\History;
+use App\Models\Photo;
+use App\Models\Product;
 
 
 
@@ -50,17 +52,25 @@ Route::get('/clear-cache', function() {
 Route::get('/test', function() {
     // $sessionPath = session()->getPath();
     
-    $sessionPath = config('session.SESSION_PATH');
+    // $sessionPath = config('session.SESSION_PATH');
 
 
-    $session = session()->all();
+    // $session = session()->all();
 
-    dump($session);
+    // dump($session);
 
     // $h = new History();
     // $h->action = 'new History()';
     // $h->save();
-    // dump($h);
+
+    // $photo = Photo::all();
+    // dump($photo);
+
+    $product = Product::find(16);
+    $product->photos()->sync( [4,3] );
+    dump($product->photos());
+    dump($product);
+
 });
 
 Route::get('/session', function() {

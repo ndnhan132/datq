@@ -110,12 +110,12 @@
                     if (response.status == 'success') {
                         console.log('Update thành công!');
                         $.notify({
-                        title: "",
-                        message: "Cập nhật thành công!",
-                        icon: 'fa fa-check' 
-                    },{
-                        type: "info"
-                    });
+                            title: "",
+                            message: "Cập nhật thành công!",
+                            icon: 'fa fa-check' 
+                        },{
+                            type: "info"
+                        });
                         loadCategoryTable();
                     } else {
                         console.log('Update thất bại!');

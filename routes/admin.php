@@ -8,6 +8,7 @@ use App\Http\Controllers\AccountController;
 
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\PhotoController;
 
 
 
@@ -28,8 +29,22 @@ Route::name('category.')->prefix('/danh-muc')->group(function(){
 Route::name('product.')->prefix('/san-pham')->group(function(){
     
     Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
+    Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
+
+    Route::get('/thay-doi/{product_id}', [ProductController::class, 'getUpdate'])->name('getUpdate');
+    Route::post('/thay-doi', [ProductController::class, 'postUpdate'])->name('postUpdate');
+    Route::post('/delete', [ProductController::class, 'delete'])->name('delete');
 
 
 
 
+});
+
+
+Route::name('photo.')->prefix('/hinh-anh')->group(function(){
+
+
+    Route::post('/them-moi-tu-san-pham', [PhotoController::class, 'ajaxUploadFromProduct'])->name('ajaxUploadFromProduct');
+    Route::get('/get-modal-photo', [PhotoController::class, 'loadProductModalPhoto'] )->name('loadProductModalPhoto');
 });
