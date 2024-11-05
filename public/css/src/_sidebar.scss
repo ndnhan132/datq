@@ -1,0 +1,83 @@
+.sidebar {
+    top: 90px;
+    width: var(--leftbar-width);
+    overflow-y: hidden;
+    max-height: calc(100vh - 100px);
+    z-index: 11;
+    scrollbar-color: #a7a7a7 #fff;
+    &:hover{
+        overflow: auto;
+    }
+
+    &__itemwrap{
+        cursor: pointer;
+        // padding: 12px 0px;
+        margin: 0px 12px;
+        border-top-width: 1px;
+        border-color: #e4e9f2;
+        margin-right: 2px;
+        .itembox{
+            cursor: pointer;
+            &::after {
+                content: "";
+                border-color: rgb(34 43 69 /1);
+                border-top-width: 1px;
+                border-left-width: 1px;
+                width: 8px;
+                height: 8px;
+                right: .25rem;
+                top: 1.5rem;
+                position: absolute;
+                transform: rotate(225deg);
+                        }
+            @media (min-width: 992px) {
+                &::after {
+                    content: "";
+                    width: 6px;
+                    height: 6px;
+                    top: 18px;
+                    border-color: #979797;
+                
+                }
+            }
+
+            .itemlink{
+                padding: 12px 0;
+            }
+            .cate-name {
+                text-transform: uppercase;
+                font-size: 14px;
+                line-height: 1.25rem;
+                font-weight: 600;
+                color: #222b45
+            }
+        }
+
+        .menutext{
+            font-size: 14px;
+            color: rgb(34 43 69 /1);
+            line-height: 1.25rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+    }
+    .menu-discount {
+        padding: 12px 0px;
+    }
+    .menu-storesys{
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-color: #e4e9f2;
+        padding: 12px 0px;
+
+        img{
+            color: transparent;
+            width: 100%;
+            height: auto;
+            opacity: 1;
+        }
+    }
+}
+
+
+ 
