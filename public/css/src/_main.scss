@@ -1,0 +1,42 @@
+mian#main-layout{
+
+}
+
+
+.homepage {
+    #main-layout {
+        .cate_name {
+            padding-left: 4px;
+            padding-right: 4px; 
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            &:hover {
+                color: #037841;
+                background-color: #f0fff3
+            }
+        }
+        
+        .image-container {
+            width: 60px; 
+            height: 60px;
+            margin-bottom: 2px;
+            object-fit: cover;
+            .category-image {
+                object-fit: cover !important;
+                opacity: 1;
+                color: transparent;
+                width: 100%;
+                height: auto;
+            }
+        }
+        
+        .name-container {
+            margin-bottom: 8px;
+            height: 32px;
+            
+            .category-name {
+                
+            }
+        }
+    }
+}

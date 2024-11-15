@@ -1,5 +1,6 @@
 :root{
     --leftbar-width: 270px;
+    --main-background: rgb(233 237 240 / 1);
 }
 
 
@@ -225,17 +226,12 @@ a{
     height: 100%;
 }
 
-.mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-}
+
 .px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
 }
-.m-auto {
-    margin: auto;
-}
+
 
 .mr-0 {
     margin-right: 0;
@@ -279,6 +275,20 @@ a{
 }
 
 
+
+.ml-auto {
+    margin-left: auto;
+}
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+.m-auto {
+    margin: auto;
+}
+
+
+
 .px-2 {
     padding-left: .5rem;
     padding-right: .5rem;
@@ -302,7 +312,9 @@ a{
 .justify-end {
     justify-content: flex-end;
 }
-
+.justify-start{
+    justify-content: flex-start;
+}
 
 
 .items-start {
@@ -319,7 +331,9 @@ a{
 
 
 
-
+.text-center {
+    text-align: center;
+}
 
 
 
@@ -329,11 +343,13 @@ a{
 
 
 .bg-white {
-    background-color: rgb(255 255 255 / 1);
+    background-color: #ffffff;
 }
 .text-white {
     color: #fff;
 }
-
+.bg-main {
+    background-color: var(--main-background);
+}
 
 

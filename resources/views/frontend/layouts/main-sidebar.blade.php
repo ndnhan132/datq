@@ -17,9 +17,13 @@ $cats = [
 
 @endphp
 
+<!-- mian sidebar menu -->
+
 <div class="menu-desktop bg-white fixed sidebar "
     style="scrollbar-gutter: stable;">
+
     <div class="relative">
+
         <div class="flex items-center sidebar__itemwrap menu-discount">
             <span class="flex items-center item_discount menutext">
                 <i class="icon__discount scale-125"></i>
@@ -37,14 +41,18 @@ $cats = [
         </div>
         @endforeach
 
-        </div>
+        <div>
             <a class="flex items-center sidebar__itemwrap menu-storesys" href="/he-thong-sieu-thi" >
-                <span class="flex items-center menutext" style="">
+                <span class="flex items-center menutext" >
                     <div class="relative inline-block mr-1" style="width: 20px; height: 20px;">
                         <img alt="" loading="lazy" width="0" height="0" class="" src="{{ asset('/public/img/menu_store.svg') }}" >
-                        </div> Xem 1.736 cửa hàng
+                    </div> Xem 1.736 cửa hàng
                 </span>
             </a>
         </div>
+
     </div>
+
 </div>
+
+<!-- mian sidebar menu -->

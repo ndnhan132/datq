@@ -9,14 +9,14 @@
     <!-- <link rel="stylesheet" href="{{ asset('/public/css/bootstrap.css') }}" rel="stylesheet" > -->
     <script src="{{ asset('/public/js/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
     
-    <!-- <link rel="stylesheet" href="{{ asset('/public/css/bhx.css') }}?v{{ time() }}" rel="stylesheet" > -->
+    <link rel="stylesheet" href="{{ asset('/public/css/bhx.css') }}?v{{ time() }}" rel="stylesheet" >
     
     
     <link rel="stylesheet" href="{{ asset('/public/css/styles.css') }}?v{{ time() }}" rel="stylesheet" >
 
 </head>
 <body>
-    <div style="background-color: rgb(233 237 240 / 1);min-height: 100vh;" class="w100 block relative">
+    <div style="min-height: 100vh;" class="w100 block relative bg-main">
 
         @include('frontend.layouts.header')
         <div>
@@ -24,22 +24,19 @@
                 @include('frontend.layouts.main-sidebar')
             </div>
         </div>
-        
-        <!-- <main class="container content position-relative" id="main_content">
-            <div id="main_content_left" class="content-menu" style="">
-                @include('frontend.layouts.main-sidebar')
-            </div>
-            <div id="w-100 mx-auto">
-                <div id="main_content_right">
-                    @yield('content')
-                </div>
-            </div>
-        </main>
+        <!-- ------------------------------------------------------------------------ -->
 
+        <div class="mx-auto max-w-screen"
+        style="
+        transition-property: all;
+        transition-timing-function: cubic-bezier(.4,0,.2,1);
+        transition-duration: .4s;
+        padding-top: 90px;
+        ">
 
+            @yield('content')
+        </div>
 
-        
-        @include('frontend.layouts.footer') -->
         
     </div>
 
