@@ -48,3 +48,13 @@ php artisan make:controller Backend/DashboardController
 php artisan make:controller Backend/CategoryController
 php artisan make:controller Backend/PhotoController
 php artisan make:controller Backend/ProductController
+
+php artisan make:controller --api Api/V1/ProductController
+php artisan make:controller --api Api/V1/CategoryController
+php artisan make:controller --api Api/V1/CartController
+php artisan make:controller --api Api/V1/OrderController
+
+
+
+php artisan make:controller --api Api/V2/ProductController
+php artisan route:list --path=api/v1
