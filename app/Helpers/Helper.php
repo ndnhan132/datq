@@ -3,8 +3,8 @@
 use Faker\Factory as Faker;
 
 
-function priceAfterDiscount($price, $discount) {
-    $discountedPrice = $price - ($price * $discount / 100);
+function priceAfterDiscount($product) {
+    $discountedPrice = $product->price - ($product->price * $product->discount / 100);
     $roundedDownPrice = floor($discountedPrice / 1000) * 1000;
     return $roundedDownPrice;
 }
@@ -17,7 +17,7 @@ function calTotalAmountAfterDiscount ( $cartProducts, $carts ) {
     $subTotal = 0;
     foreach ($cartProducts as $product) {
         $product->cartQuantity = $carts[$product->id]['quantity'];
-        $subTotal += priceAfterDiscount( $product->price , $product->discount ) * $product->cartQuantity;
+        $subTotal += priceAfterDiscount( $product ) * $product->cartQuantity;
     }
     return (int) $subTotal;
 }
@@ -36,7 +36,7 @@ function calDiscountTotal($cartProducts, $carts ) {
     $discountTotal = 0;
     foreach ($cartProducts as $product) {
         $product->cartQuantity = $carts[$product->id]['quantity'];
-        $discountTotal += ($product->price - priceAfterDiscount( $product->price , $product->discount ) ) * $product->cartQuantity;
+        $discountTotal += ($product->price - priceAfterDiscount( $product ) ) * $product->cartQuantity;
     }
     return (int) $discountTotal;
 }
@@ -47,25 +47,7 @@ function generateOrderId() {
     return $randomChars . time();
 }
 
-
-
-function fakeName(){
-    $faker = Faker::create();
-    return $faker->name;
-}
-function fakePhone(){
-    $faker = Faker::create();
-    return $faker->phoneNumber;
-}
-function fakeAddress(){
-    $faker = Faker::create();
-    return $faker->address;
-}
-function fakeText(){
-    $faker = Faker::create();
-    return $faker->text;
-}
-
+ 
 function getRandomCharacters($length = 3) {
     $characters = 'abcdefghijklmnopqrstuvwxyz';
     $randomString = '';
@@ -77,4 +59,24 @@ function getRandomCharacters($length = 3) {
     }
 
     return $randomString;
+}
+
+function processProducts($products) {
+    foreach ($products as $product) {
+        $product = processProduct($product);
+    }
+    return $products;
+}
+
+function processProduct($product) {
+    $newCarts = session()->get('carts') ?? [];
+    $product->name_vi = $product->name_vi . " - " .  $product->categories()->first()->name;
+    $product->first_photo = $product->photos()->first()->path; 
+    $product->link_detail_page = '/' . $product->categories()->first()->slug . "/" . $product->slug;
+
+    // $product->link_category = "/" .  $product->categories()->first()->slug;
+    $product->first_photo = $product->photos()->first()->path; 
+    $product->new_price = priceAfterDiscount($product);
+    $product->cart_quantity = $newCarts[$product->id]['quantity'] ?? 0;
+    return $product;
 }

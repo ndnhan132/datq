@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::Where('parent_id', '1' )->get();
         if (!$categories) {
             return response()->json(['message' => 'No categories found'], 404);
         }

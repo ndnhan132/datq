@@ -34,6 +34,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_shipper' => CheckShipperMiddleware::class,
             'is_login' => CheckLoginMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            // 'api/v1/cart/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

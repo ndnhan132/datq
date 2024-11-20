@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Category;
+ 
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -12,7 +16,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        if (!$products) {
+            return response()->json(['message' => 'No Product found'], 404);
+        }
+        
+        return response()->json($products, 200);
     }
 
     /**
@@ -46,4 +55,165 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function filter(Request $request) {
+        $cateId = $request->input('cateId');
+        $dataSize = $request->input('dataSize', 10);
+        $offset = $request->input('offset', 0);
+
+        $query = Product::query();
+
+        if ($cateId) {
+            $query->whereHas('categories', function ($query) use ($cateId) {
+                $query->where('categories.id', $cateId);
+            });
+        }
+        if ($offset) {
+            $query->skip($offset);
+        }
+        if ($dataSize) {
+            $query->take($dataSize);
+        }
+
+        $products = $query->get();
+
+        $product = processProducts($products);
+        // Log::info($products);
+
+        return response()->json($products, 200);
+    }
+
+    public function flashSale(Request $request) {
+        $products = Product::inRandomOrder()->take(24)->get();
+
+
+
+        foreach ($products as $product) {
+            $product->remainingQuantity = $product->quantity;
+        }
+        $products = processProducts($products);
+        return response()->json($products, 200);
+
+    }
+    public function hotDeal(Request $request) {
+        $products = Product::inRandomOrder()->take(24)->get();
+
+        
+        $products = processProducts($products);
+        return response()->json($products, 200);
+    }
+
+    public function productsByCategory(Request $request) {
+        // Log::info($request);
+
+        $categorySlug = $request->input('categorySlug');
+        $perPage = $request->input('perPage', 10); // Default: 10 sản phẩm mỗi trang
+        $offset = $request->input('offset', 0); // Offset bắt đầu từ đâu
+        $page = $request->input('page', 1); // Trang hiện tại
+
+        $category = Category::where('slug', $categorySlug)->first(); 
+        $query = Product::query();
+        if ($page) {
+            $offset = ($page - 1) * $perPage;
+        }
+
+        if ($categorySlug) {
+            $query->whereHas('categories', function ($query) use ($categorySlug) {
+                $query->where('categories.slug', $categorySlug);
+            });
+        }
+
+
+
+        $totalItems = $query->count();
+
+        if ($offset) {
+            $query->skip($offset);
+        }
+        if ($perPage) {
+            $query->take($perPage);
+        }
+ 
+        $products = $query->get();
+
+
+        
+        $products = processProducts($products);
+        // Log::info($products);
+
+        
+        return response()->json([
+            'products' =>  $products, // Sản phẩm trong trang hiện tại
+            'totalItems' => $totalItems,       // Tổng số sản phẩm
+            'categoryName' => $category->name
+        ], 200);
+
+        // return response()->json($products, 200);
+    }
+
+    function productBySlug(Request $request, $productSlug ) {
+        $product = Product::with('photos')->where('slug', $productSlug)->first();
+        $category  = Category::where('slug', $request->input('categorySlug'))->first();
+        if (!$product) {
+            return response()->json([
+                'product' => [], 
+                'message' => 'No Product found'
+            ], 404);
+        }
+
+        $product = processProduct($product);
+        $product->remainingQuantity = $product->quantity;
+        $product->categoryName = $category->name;
+
+        return response()->json($product, 200);
+    }
+
+    function similar(Request $request ) {
+ 
+        $product = Product::where('slug', $request->input('productSlug'))->first();
+        if (!$product) {
+            return response()->json([
+               'similarProducts' => [], 
+               'message' => 'No Product found'
+            ], 404);
+        }
+
+        $similarProducts = Product::where('id', '!=', $product->id)
+        ->whereHas('categories', function ($query) use ($product) {
+            $query->whereIn('categories.id', $product->categories->pluck('id'));
+        })
+        ->inRandomOrder()
+        ->take(6)
+        ->get();
+
+        $similarProducts = processProducts($similarProducts);
+
+        return response()->json( $similarProducts , 200);
+    }
+
+
+    function sanPhamMuaCung(Request $request ) {
+ 
+        $product = Product::where('slug', $request->input('productSlug'))->first();
+        if (!$product) {
+            return response()->json([
+               'similarProducts' => [], 
+               'message' => 'No Product found'
+            ], 404);
+        }
+
+        $similarProducts = Product::where('id', '!=', $product->id)
+        ->whereHas('categories', function ($query) use ($product) {
+            $query->whereIn('categories.id', $product->categories->pluck('id'));
+        })
+        ->inRandomOrder()
+        ->take(6)
+        ->get();
+
+        $similarProducts = processProducts($similarProducts);
+
+        return response()->json( $similarProducts , 200);
+    }
+
+
 }

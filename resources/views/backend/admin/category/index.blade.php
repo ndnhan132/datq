@@ -97,7 +97,7 @@
 
 @endsection
 @section('javascript')
-<script type="text/javascript" src="{{asset('/public/web-admin/js/dashboard.js?s=') . time() }}"></script>
+<script type="text/javascript" src="{{asset('/web-admin/js/dashboard.js?s=') . time() }}"></script>
 <script>
     jQuery(document).ready(function() {
         loadCategoryTable();

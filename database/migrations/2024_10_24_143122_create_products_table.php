@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
+            $table->string("name_vi");
+            $table->string("name_zh")->nullable();
             $table->string("slug");
-            $table->text("description")->nullable();
+            $table->text("description_vi")->nullable();
+            $table->text("description_zh")->nullable();
             $table->integer('price')->default(0);
             $table->integer('cost_price')->default(0);
             $table->integer('discount')->default(0);
             $table->integer('quantity')->default(0);
             $table->string("unit_of_measurement");
             
-            $table->unsignedBigInteger('pho')->default('0')->foreign('customer_id')->references('id')->on('users')->onDelete
-            ('RESTRICT');
+            // $table->unsignedBigInteger('pho')->default('0')->foreign('customer_id')->references('id')->on('users')->onDelete
+            // ('RESTRICT');
 
             $table->boolean('is_featured')->default(0);
             $table->boolean('public')->default(1);

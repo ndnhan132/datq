@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserSeeder extends Seeder
@@ -38,7 +39,8 @@ class UserSeeder extends Seeder
                 'username'      => 'adminnhan'    ,
                 'display_name'  => 'mr. nhan',
                 'usr_email'         => 'ndnhan132@gmail.com',
-                'usr_password'      => bcrypt('T@#123456'),
+                // 'usr_password'      => bcrypt('T@#123456'),
+                'usr_password'      => Hash::make('N123456'),
                 'role'          => [ $ad, $em, $sh ],
             ],
         ];

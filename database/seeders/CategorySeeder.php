@@ -24,15 +24,27 @@ class CategorySeeder extends Seeder
             'parent_id' => 0,
         ]);
 
-        $subCat = array(
-            [ "name" => "Bánh kẹo Trung Quốc", "img" => "https://t0.pixhost.to/thumbs/521/525520336_449215967_790860256489570_9197507344493689214_n-jpg-_nc_cat-102-ccb-1-7-_nc_sid.jpg" ],
-            [ "name" => "Hoa quả sấy khô Trung Quốc", "img" => "https://t0.pixhost.to/thumbs/521/525519506_462223601_851469183762010_3767766453107073892_n-jpg-_nc_cat-100-ccb-1-7-_nc_sid.jpg" ],
-
-        );
-        foreach($subCat as $sub) {
+        $chineseSnackCategories = [
+            "Đồ Ăn Vặt Trung Quốc",
+            "Đồ Ngọt & Bánh Kẹo",
+            "Đồ Ăn Nhanh",
+            "Đồ Uống Đóng Hộp",
+            "Đồ Nướng & Khô",
+            "Mì & Bún Ăn Liền",
+            "Hạt & Ngũ Cốc",
+            "Đồ Chua & Dưa Muối",
+            "Hải Sản Sấy Khô",
+            "Snack Rong Biển",
+            "Kẹo Dẻo & Kẹo Đắng",
+            "Trà Sữa & Đồ Uống Đặc Biệt",
+            "Đồ Chay Trung Quốc",
+            "Trái Cây Sấy",
+            "Gia Vị & Nước Chấm Trung Quốc"
+        ];
+        foreach($chineseSnackCategories as $sub) {
             Category::create([
-                'name' => $sub['name'],
-                'slug' => Str::slug($sub['name']),
+                'name' => $sub,
+                'slug' => Str::slug($sub),
                 'parent_id' => 1,
             ]);
         }

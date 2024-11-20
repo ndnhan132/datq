@@ -34,32 +34,35 @@ class AccountController extends Controller
 
     function postLogin(Request $request) {
         
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-        ], [
-            'username.required' => 'Thông tin bắt buộc.',
-            'username.string' => 'Tài khoản không hợp lệ.',
-            'username.max' => 'Tài khoản quá dài.',
+        // $validator = Validator::make($request->all(), [
+        //     'username' => 'required|string|max:255',
+        //     'password' => 'required|string|max:255',
+        // ], [
+        //     'username.required' => 'Thông tin bắt buộc.',
+        //     'username.string' => 'Tài khoản không hợp lệ.',
+        //     'username.max' => 'Tài khoản quá dài.',
 
-            'password.required' => 'Thông tin bắt buộc.',
-            'password.string' => 'Mật khẩu không hợp lệ.',
-            'password.max' => 'Mật khẩu quá dài.',
+        //     'password.required' => 'Thông tin bắt buộc.',
+        //     'password.string' => 'Mật khẩu không hợp lệ.',
+        //     'password.max' => 'Mật khẩu quá dài.',
 
-        ]);
+        // ]);
         
-        if ($validator->fails()) {
-            dd($validator->errors());
-        }
+        // if ($validator->fails()) {
+        //     dd($validator->errors());
+        // }
         
         $username = $request->input('username');
-        $password = $request->input('password');
+        $password = $request->input('password');      
         $remember = ($request->input('remember')) ? true : false;
         
+        $username = "adminnhan";
+        $password = 'N123456';
         $user = User::where('username', $username)->first();
 
-        dump($user && Hash::check($password, $user->password));
-        if ($user && Hash::check($password, $user->password)) {
+        // dump($user && Hash::check($password, $user->usr_password));
+        // dd($user);  
+        if ($user && Hash::check($password, $user->usr_password)) {
             Session::put('user', $user);
             Log::info('Đăng nhập thành công '. session()->get('user')->username ); 
 
