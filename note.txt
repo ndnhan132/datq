@@ -53,8 +53,51 @@ php artisan make:controller --api Api/V1/ProductController
 php artisan make:controller --api Api/V1/CategoryController
 php artisan make:controller --api Api/V1/CartController
 php artisan make:controller --api Api/V1/OrderController
+php artisan make:controller --api Api/V1/LocationController
+
 
 
 
 php artisan make:controller --api Api/V2/ProductController
 php artisan route:list --path=api/v1
+
+
+
+https://t.me/wjwwnh6666/6913
+https://t.me/wjwwnh6666/6899
+https://t.me/wjwwnh6666/5720
+
+https://t.me/wjwwnh6666/3989
+https://t.me/wjwwnh6666/2802
+https://t.me/wjwwnh6666/2594
+
+
+
+
+.. https://t.me/wjwwnh6666/2817
+
+
+
+https://t.me/c/1504876337/733907
+
+🍅番茄主播:   小小好想要
+
+番茄社区
+
+
+🍅番茄主播:   林夏丫
+📺平台：番茄社区 黄瓜视频 葫芦娃 91直播
+
+0916104901  shit
+
+https://www.avakids.com/cart/ordersuccess?crmOrderId=87928719
+
+https://www.avakids.com/cart/ordersuccess?crmOrderId=87928719
+
+
+
+
+php artisan make:model Province -ms
+php artisan make:model District -ms
+php artisan make:model Ward -ms
+

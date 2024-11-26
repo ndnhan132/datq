@@ -170,6 +170,7 @@ class ProductSeeder extends Seeder
                 'cost_price' => rand(1 , 100) * 500,
                 'discount' => rand(0 , 7) * 5,
                 'quantity' => rand(50, 500),
+                'sold_quantity' => rand(0, 500),
                 'unit_of_measurement' => $unit_of_measurement[$randomKey],
             ]);
             $product->categories()->attach( [rand( 2, $maxCateId ) ,rand( 2, $maxCateId )] );

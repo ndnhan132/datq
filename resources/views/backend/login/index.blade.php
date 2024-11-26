@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/template/css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/public/template/css/main.css') }}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -29,8 +29,8 @@
                 @csrf
                 <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Đăng nhập</h3>
                 <div class="form-group">
-                    <label class="control-label">Tài khoản</label>
-                    <input class="form-control" type="text" placeholder="Tài khoản" autofocus name="username" value="{{ Cookie::get('log_username') }}">
+                    <label class="control-label">Số điện thoại</label>
+                    <input class="form-control" type="phone" placeholder="Số điện thoại" autofocus name="phonenumber" value="{{ Cookie::get('log_phone') }}">
                 </div>
                 <div class="form-group">
                     <label class="control-label">Mật khẩu</label>

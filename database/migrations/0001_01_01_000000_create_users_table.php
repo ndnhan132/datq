@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
+            // $table->string('username')->unique();
             $table->string('display_name')->nullable();
-            $table->string('usr_email')->unique();
-            $table->string('usr_phone')->nullable();
+            $table->string('usr_email')->unique()->nullable();
+            $table->string('usr_phone')->unique();
             $table->text('usr_address')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('usr_password');
+            $table->string('usr_password')->nullable();
             $table->unsignedBigInteger('usr_aff_id')->default(0);
             $table->integer('usr_money')->default(0);
             $table->boolean('usr_aff_enabled')->default(1);
@@ -27,7 +26,11 @@ return new class extends Migration
             
             
             
+            $table->timestamp('phone_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             
+            $table->string('login_verify_code')->nullable();
+            $table->timestamp('login_verify_created_at')->nullable();
             
             
             $table->rememberToken();
@@ -49,6 +52,8 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::statement('ALTER TABLE users AUTO_INCREMENT = 101010;');
     }
 
     /**

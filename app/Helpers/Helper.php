@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Factory as Faker;
-
+use Illuminate\Support\Facades\Log;
 
 function priceAfterDiscount($product) {
     $discountedPrice = $product->price - ($product->price * $product->discount / 100);
@@ -79,4 +79,28 @@ function processProduct($product) {
     $product->new_price = priceAfterDiscount($product);
     $product->cart_quantity = $newCarts[$product->id]['quantity'] ?? 0;
     return $product;
+}
+
+
+
+function curlApiGet($api) {
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $api);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // Tắt xác thực SSL
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // Tắt xác thực chứng chỉ
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        Log::alert('curlApiGet Error: ' );
+        Log::alert(curl_error($ch) );
+
+    }
+    curl_close($ch);
+    // Log::alert("curlApiGet message: ");
+    // Log::alert( $response );
+
+    return json_decode($response);
+
 }

@@ -88,7 +88,7 @@ Route::group(['middleware' => 'web'], function () {
 
 
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // // Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/gio-hang', [CartController::class, 'showCart'])->name('cart.showCart');

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('RESTRICT');
             $table->foreignId('product_id')->constrained('products')->onDelete('RESTRICT');
-            $table->integer('quantity');
-            $table->integer('cost_price');
-            $table->integer('final_price');
+            $table->integer('quantity')->default(0);
+            $table->integer('cost_price')->default(0);
+            $table->integer('final_price')->default(0);
             $table->timestamps();
         });
     }

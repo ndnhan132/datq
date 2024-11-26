@@ -22,21 +22,21 @@ class UserSeeder extends Seeder
 
         $uArr = [
             [
-                'username'      => 'adminthanh'    ,
+                'usr_phone'      => '0972704785'    ,
                 'display_name'  => 'mr. thanh',
                 'usr_email'         => 'support@shopkeys.co',
                 'usr_password'      => bcrypt('T@#123456'),
                 'role'          => [ $ad, $em, $sh ],
             ],
             [
-                'username'      => 'adminhuan'    ,
+                'usr_phone'      => '0838620123'    ,
                 'display_name'  => 'mrs. huan',
                 'usr_email'         => '',
                 'usr_password'      => bcrypt('T@#123456'),
                 'role'          => [ $ad, $em, $sh ],
             ],
             [
-                'username'      => 'adminnhan'    ,
+                'usr_phone'      => '0368054220'    ,
                 'display_name'  => 'mr. nhan',
                 'usr_email'         => 'ndnhan132@gmail.com',
                 // 'usr_password'      => bcrypt('T@#123456'),
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
 
         foreach($uArr as $u) {
             $user = new User();
-            $user->username = $u['username'];
+            $user->usr_phone = $u['usr_phone'];
             $user->display_name = $u['display_name'];
             $user->usr_email = $u['usr_email'];
             $user->usr_password = $u['usr_password'];

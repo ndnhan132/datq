@@ -42,7 +42,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::alert($request->all());
     }
 
     /**
@@ -72,7 +72,7 @@ class CartController extends Controller
             $cartQuantity = $maxSkuItems;
         }
         
-        Log::debug([ "sessions = " , session()->all() ]);
+        // Log::debug([ "sessions = " , session()->all() ]);
 
 
         $carts = $request->session()->get('carts', []);
@@ -180,6 +180,9 @@ class CartController extends Controller
             'total'         => (int) $subTotal ?? 0,
         ], 200);
     }
+
+
+
 
 
 }

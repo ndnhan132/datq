@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string("kiotviet_id")->nulable()->default("");
             $table->string("name_vi");
             $table->string("name_zh")->nullable();
             $table->string("slug");
@@ -23,15 +24,16 @@ return new class extends Migration
             $table->integer('discount')->default(0);
             $table->integer('quantity')->default(0);
             $table->string("unit_of_measurement");
+            $table->unsignedInteger('sold_quantity')->default(0);
             
-            // $table->unsignedBigInteger('pho')->default('0')->foreign('customer_id')->references('id')->on('users')->onDelete
-            // ('RESTRICT');
-
+ 
             $table->boolean('is_featured')->default(0);
             $table->boolean('public')->default(1);
 
             $table->timestamps();
         });
+        DB::statement('ALTER TABLE products AUTO_INCREMENT = 10000;');
+
     }
 
     /**

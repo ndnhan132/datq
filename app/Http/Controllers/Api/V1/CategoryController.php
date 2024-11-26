@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -51,5 +52,40 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getHomeCategoryProduct(Request $request) {
+        //
+        $categories = Category::Where('parent_id', '1' )->get();
+        if (!$categories) {
+            return response()->json(['message' => 'No categories found'], 404);
+        }
+        $res = [];
+        foreach ($categories as $cate ) {
+            $item = new \stdClass();
+
+            $item->category = $cate->only("id" , "name", "slug");
+            $prds = processProducts($cate->products->take(12));
+            // dd($prds);
+            $prds = $prds->map(function ($product) {
+                return [
+                    'id'    => $product->id,
+                    'name' => $product->name_vi,
+                    'price' => $product->price,
+                    'discount' => $product->discount,
+                    'first_photo' => $product->first_photo,
+                    'link_detail_page' => $product->link_detail_page,
+                    'new_price' => $product->new_price,
+                    'cart_quantity' => $product->cart_quantity,
+                    'quantity'  => $product->quantity,
+                ];
+            });
+            
+            $item->products = $prds;
+
+            $res[] = $item;
+        }
+        
+        return response()->json($res, 200);
     }
 }

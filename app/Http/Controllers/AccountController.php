@@ -52,13 +52,13 @@ class AccountController extends Controller
         //     dd($validator->errors());
         // }
         
-        $username = $request->input('username');
+        $phonenumber = $request->input('phonenumber');
         $password = $request->input('password');      
         $remember = ($request->input('remember')) ? true : false;
         
-        $username = "adminnhan";
+        $phonenumber = "0368054220";
         $password = 'N123456';
-        $user = User::where('username', $username)->first();
+        $user = User::where('usr_phone', $phonenumber)->first();
 
         // dump($user && Hash::check($password, $user->usr_password));
         // dd($user);  
@@ -67,8 +67,8 @@ class AccountController extends Controller
             Log::info('Đăng nhập thành công '. session()->get('user')->username ); 
 
             if ( $remember ) {
-                Cookie::queue('log_username', $request->username, 60 * 24 * 30); // 30 ngày
-                Cookie::queue('log_password', $request->password, 60 * 24 * 30); // 30 ngày
+                Cookie::queue('log_phone', $request->usr_phone, 60 * 24 * 7); // 30 ngày
+                Cookie::queue('log_password', $request->password, 60 * 24 * 7); // 30 ngày
             }
             return redirect()->route('admin.getDashboard');    
             // return redirect()->route('getDashboard');

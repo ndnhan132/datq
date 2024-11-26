@@ -84,7 +84,7 @@ class ProductController extends Controller
     }
 
     public function flashSale(Request $request) {
-        $products = Product::inRandomOrder()->take(24)->get();
+        $products = Product::take(24)->get();
 
 
 
@@ -96,7 +96,7 @@ class ProductController extends Controller
 
     }
     public function hotDeal(Request $request) {
-        $products = Product::inRandomOrder()->take(24)->get();
+        $products = Product::offset(30)->take(24)->get();
 
         
         $products = processProducts($products);
@@ -107,9 +107,10 @@ class ProductController extends Controller
         // Log::info($request);
 
         $categorySlug = $request->input('categorySlug');
-        $perPage = $request->input('perPage', 10); // Default: 10 sản phẩm mỗi trang
+        $perPage = $request->input('perPage', 20); // Default: 10 sản phẩm mỗi trang
         $offset = $request->input('offset', 0); // Offset bắt đầu từ đâu
         $page = $request->input('page', 1); // Trang hiện tại
+        $sortBy = $request->input('sortBy', ); // Trang hiện tại
 
         $category = Category::where('slug', $categorySlug)->first(); 
         $query = Product::query();
@@ -126,6 +127,30 @@ class ProductController extends Controller
 
 
         $totalItems = $query->count();
+        
+        switch ($sortBy) {
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'featured':
+                # code...
+                break;
+            case 'best_selling':
+                # code...
+                break;
+            case 'discount_desc':
+                $query->orderBy('discount', 'desc');
+                break;
+            case 'price_desc':
+                $query->orderByRaw('(price - (price * discount / 100)) desc');
+                break;
+            case 'price_asc':
+                $query->orderByRaw('(price - (price * discount / 100)) asc');
+                break;
+            default:
+                # code...
+                break;
+        }
 
         if ($offset) {
             $query->skip($offset);
@@ -215,5 +240,38 @@ class ProductController extends Controller
         return response()->json( $similarProducts , 200);
     }
 
+    public function search(Request $request) {
+        $searchQuery = $request->input('searchQuery', "");
+        // Log::debug("search query " . $searchQuery);
+        $products = Product::query()
+        ->where('name_vi', 'like', '%' . $searchQuery . '%')
+        ->orWhere('description_vi', 'like', '%' . $searchQuery . '%')
+        ->orderBy("sold_quantity", "desc")
+        ->take(10)
+        ->get();
+        $products = processProducts($products);
+
+        return response()->json($products, 200);
+    }
+
+    public function suggestSearch(Request $request) {
+        $keyWord = [
+            "Chân gà", 
+            "Bánh Socola",
+            "Bánh trứng",
+            "Trái Ô liu cam thảo",
+            "Ô MAI",
+            "BÁNH TAM GIÁC",
+            "KẸO QUE PHÔ MAI SỮA BÒ",
+            "Mỳ trộn tương đen",
+        ];
+        $products = Product::take(10)->get();
+        $products = processProducts($products);
+        
+        return response()->json([
+            'products' => $products,
+           'suggestedKeywords' => $keyWord,
+        ], 200);
+    }
 
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string("kiotviet_id")->nulable()->default("");
             $table->string('name');
             $table->string('slug')->unique();
             $table->integer('parent_id')->unsigned()->default(0);
