@@ -41,11 +41,11 @@ class PhotoController extends Controller
             $photo->save();
 
             Log::debug($photo);
-            Log::info( session()->get('user')->username . ' upload ảnh ' .$fullUrl );
+            Log::info( session()->get('user')->display_name . ' upload ảnh ' .$fullUrl );
 
 
             // $photo = Photo::find(4);
-
+            $photo->path = asset($photo->path);
             return response()->json([
                 'success' => true,
                 'message' => 'Ảnh đã được lưu thành công!',

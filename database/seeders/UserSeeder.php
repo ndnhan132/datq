@@ -22,22 +22,22 @@ class UserSeeder extends Seeder
 
         $uArr = [
             [
-                'usr_phone'      => '0972704785'    ,
-                'display_name'  => 'mr. thanh',
+                'usr_phone'      => '0972704785',
+                'display_name'  => 'ddthanh',
                 'usr_email'         => 'support@shopkeys.co',
                 'usr_password'      => bcrypt('T@#123456'),
                 'role'          => [ $ad, $em, $sh ],
             ],
             [
                 'usr_phone'      => '0838620123'    ,
-                'display_name'  => 'mrs. huan',
+                'display_name'  => 'mthuan',
                 'usr_email'         => '',
                 'usr_password'      => bcrypt('T@#123456'),
                 'role'          => [ $ad, $em, $sh ],
             ],
             [
                 'usr_phone'      => '0368054220'    ,
-                'display_name'  => 'mr. nhan',
+                'display_name'  => 'nhan',
                 'usr_email'         => 'ndnhan132@gmail.com',
                 // 'usr_password'      => bcrypt('T@#123456'),
                 'usr_password'      => Hash::make('N123456'),

@@ -177,7 +177,11 @@ class ProductController extends Controller
     }
 
     function productBySlug(Request $request, $productSlug ) {
+        Log::debug("productBySlug ");
+        Log::debug( $request->all());
+        Log::debug( $productSlug );
         $product = Product::with('photos')->where('slug', $productSlug)->first();
+        // dd($request);
         $category  = Category::where('slug', $request->input('categorySlug'))->first();
         if (!$product) {
             return response()->json([

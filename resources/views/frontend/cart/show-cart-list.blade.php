@@ -26,7 +26,7 @@
                 <div class="d-flex  item-right">
                     <div class="d-flex flex-sm-column align-self-center p-2">
                         <span>{{ $product->name }}</span>
-                        <span>Đơn vị: {{ $product->unit_of_measurement }}</span>
+                        <span>Đơn vị: {{ $product->unit }}</span>
                     </div>
                 </div>
 

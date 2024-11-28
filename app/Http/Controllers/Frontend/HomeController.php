@@ -16,6 +16,7 @@ class HomeController extends Controller
     public function index() {
 
         echo '<div>tanhongfood.com</div>';
+        return redirect()->route('account.getLogin');
         return ;
         // return view('frontend.home.copy' );
         return view('frontend.home.index' );

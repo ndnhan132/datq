@@ -60,6 +60,7 @@
             $('#edit_category_modal_form input[name="category_id"]').val($(this).data('catid'));
         });
 
+        
 
 
 
@@ -86,7 +87,15 @@
                         success: function (response) {
                             if (response.status == 'success') {
                                 loadCategoryTable();
-                                swal("Deleted!", "Xóa thành công.", "success");
+                                // swal("Deleted!", "Xóa thành công.", "success");
+                                swal({
+                                    title: "Deleted!",
+                                    text: "Xóa thành công.",
+                                    type: "success",
+                                    timer: 1000, // Tự động đóng sau 1 giây
+                                    showConfirmButton: false
+                                });
+
                             }
                             else {
                                 swal("Cancelled", "Xóa thất bại)", "error");
@@ -95,6 +104,12 @@
                     });
 
                 }
+                else {
+                    console.log("Cancelled");
+                    swal.close();
+            // swal("Cancelled", "hủy xóa", "info");
+        }
+
             });
         });
         function loadCategoryTable() {
@@ -102,6 +117,8 @@
                 $('#load_category_table').load("{{ route('admin.category.loadCategoryTable') }}");
             }
         }
+
+
 
 
 

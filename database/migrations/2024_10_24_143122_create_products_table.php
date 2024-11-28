@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string("kiotviet_id")->nulable()->default("");
+            $table->string("kiotviet_id")->nullable()->default("");
             $table->string("name_vi");
             $table->string("name_zh")->nullable();
             $table->string("slug");
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('cost_price')->default(0);
             $table->integer('discount')->default(0);
             $table->integer('quantity')->default(0);
-            $table->string("unit_of_measurement");
+            $table->string("unit");
             $table->unsignedInteger('sold_quantity')->default(0);
             
  

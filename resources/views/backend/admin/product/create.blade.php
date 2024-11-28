@@ -5,7 +5,8 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/public/plugins/cropper/cropper.css')}}">
 
 <script type="text/javascript" src="{{asset('/public/plugins/cropper/cropper.min.js')}}"></script>
-<script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+<!-- <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
+<script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 @endsection
 
 @section('content')
@@ -21,6 +22,16 @@
 <div class="row">
     <div class="col-md-12">
         <div class="tile">
+            <div class="tile-footer  text-right">
+                <button class="btn btn-primary" type="button" id="product_create_form_submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>
+                    @if(isset($product))
+                    Cập nhật
+                    @else
+                    Thêm mới
+                    @endif
+                </button>
+            </div>
+
             <div class="tile-body">
                 <form class="d-flex flex-wrap" method="POST" id="product_create_form" action="{{ $formAction }}">
                     @csrf
@@ -29,17 +40,24 @@
                     @endif
                     <div class="col-sm-6">
                         <div class="form-group col-sm-12">
-                            <label class="control-label">Tên sp</label>
-                            <input class="form-control" type="text" placeholder="tên sp" name="name" value="{{ isset($product) ? $product->name : '' }}" >
+                            <label class="control-label">Tên sp Việt</label>
+                            <input class="form-control" type="text" placeholder="tên sp" name="name_vi" value="{{ isset($product) ? $product->name_vi : '' }}" >
                             <div class="form-control-feedback">
-                                <span class="text-danger form-text-errorr" id="name_err"></span>
+                                <span class="text-danger form-text-errorr" id="name_vi_err"></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label class="control-label">Tên sp trung</label>
+                            <input class="form-control" type="text" placeholder="tên sp" name="name_zh" value="{{ isset($product) ? $product->name_zh : '' }}" >
+                            <div class="form-control-feedback">
+                                <span class="text-danger form-text-errorr" id="name_zh_err"></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="control-label">Đơn vị tính</label>
-                            <input class="form-control" type="text" placeholder="Đơn vị tính" name="unit_of_measurement" value="{{ isset($product) ? $product->unit_of_measurement : '' }}"   >
+                            <input class="form-control" type="text" placeholder="Đơn vị tính" name="unit" value="{{ isset($product) ? $product->unit : '' }}"   >
                                 <div class="form-control-feedback">
-                                    <span class="text-danger form-text-errorr" id="unit_of_measurement_err"></span>
+                                    <span class="text-danger form-text-errorr" id="unit_err"></span>
                                 </div>
                         </div>
 
@@ -61,6 +79,13 @@
 
                     <div class="col-sm-6">
                         <div class="form-group col-sm-6">
+                            <label class="control-label">kiotviet id</label>
+                            <input class="form-control" type="text" placeholder="kiotviet id" name="kiotviet_id" value="{{ isset($product) ? $product->kiotviet_id : '0' }}">
+                            <div class="form-control-feedback">
+                                <span class="text-danger form-text-errorr" id="kiotviet_id_err"></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
                             <label class="control-label">Giá nhập</label>
                             <input class="form-control" type="number" placeholder="Giá nhập" name="cost_price" value="{{ isset($product) ? $product->cost_price : '0' }}">
                             <div class="form-control-feedback">
@@ -76,10 +101,17 @@
                         </div>
                         <div class="form-group col-sm-6">
 
-                            <label class="control-label">Khuyến mãi</label>
+                            <label class="control-label">Khuyến mãi %</label>
                             <input class="form-control" type="number" placeholder="Khuyến mãi" name="discount" value="{{ isset($product) ? $product->discount : '0' }}">
                             <div class="form-control-feedback">
                                 <span class="text-dange form-text-errorr" id="discount_err"></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Số lượng</label>
+                            <input class="form-control" type="number" placeholder="Số lượng" name="quantity" value="{{ isset($product) ? $product->quantity : '0' }}">
+                            <div class="form-control-feedback">
+                                <span class="text-danger form-text-errorr" id="quantity_err"></span>
                             </div>
                         </div>
                     </div>
@@ -92,7 +124,7 @@
                             @if( isset($product) )
                             @foreach($product->photos as $photo)
                             <div style="width: 120px;" class="p-1">
-                                <img src="{{ $photo->path }}" alt="" class="w-100 pb-1">
+                                <img src="{{ asset( $photo->path ) }}" alt="" class="w-100 pb-1">
                                 <input type="hidden" value="{{ $photo->id }}" name="photo_id[]">
                                 <button  class="btn  btn-warning btn-sm w-100 btn_remove_img">xóa</button>
                             </div>
@@ -108,7 +140,11 @@
 
 
                     <div class="col-sm-12 mt-3">
-                        <textarea name="editor_description" id="ck_editor">{{ (isset($product) && isset($product->description)) ? $product->description : "" }}</textarea>
+                        <textarea name="editor_description" id="ck_editor_vi">{{ (isset($product) && isset($product->description_vi)) ? $product->description_vi : "" }}</textarea>
+                    </div>
+
+                    <div class="col-sm-12 mt-3">
+                        <textarea name="editor_description" id="ck_editor_zh">{{ (isset($product) && isset($product->description_zh)) ? $product->description_zh : "" }}</textarea>
                     </div>
 
 
@@ -126,15 +162,6 @@
 
 
                 </form>
-            </div>
-            <div class="tile-footer">
-                <button class="btn btn-primary" type="button" id="product_create_form_submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>
-                    @if(isset($product))
-                    Cập nhật
-                    @else
-                    Thêm mới
-                    @endif
-                </button>
             </div>
 
 
@@ -199,7 +226,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        CKEDITOR.replace('ck_editor');
+        CKEDITOR.replace('ck_editor_vi');
+        CKEDITOR.replace('ck_editor_zh');
         CKEDITOR.config.height = 400;
 
 
@@ -212,8 +240,12 @@
 
 
             let formData = $('#product_create_form').serializeArray();
-            const editor_description = CKEDITOR.instances.ck_editor.getData();
-            formData.push({ name: 'editor_description', value: editor_description }); // Thêm dữ liệu CKEditor vào array
+            const editor_description_vi = CKEDITOR.instances.ck_editor_vi.getData();
+            formData.push({ name: 'editor_description_vi', value: editor_description_vi }); // Thêm dữ liệu CKEditor vào array
+
+            const editor_description_zh = CKEDITOR.instances.ck_editor_zh.getData();
+            formData.push({ name: 'editor_description_zh', value: editor_description_zh }); // Thêm dữ liệu CKEditor vào array
+
             let finalFormData = new FormData();
             formData.forEach(item => {
                 finalFormData.append(item.name, item.value);
@@ -360,7 +392,7 @@
                     image.style.display = 'block';
                     
                     cropper = new Cropper(image, {
-                        aspectRatio: 2/3,
+                        aspectRatio: 1/1,
                         viewMode: 1,
                     });
                 };
@@ -399,8 +431,8 @@
             if (cropper) {
                 // Lấy dữ liệu ảnh đã cắt từ Cropper
                 const croppedCanvas = cropper.getCroppedCanvas({
-                    width: 512,
-                    height: 768,
+                    width: 800,
+                    height: 800,
                 });
 
                 // Hiển thị ảnh đã cắt trên canvas

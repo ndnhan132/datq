@@ -29,6 +29,10 @@ Route::name('category.')->prefix('/danh-muc')->group(function(){
 Route::name('product.')->prefix('/san-pham')->group(function(){
     
     Route::get('/', [ProductController::class, 'index'])->name('index');
+
+    Route::get('/load-datatable', [ProductController::class, 'loadDataTable'])->name('loadDataTable');
+
+
     Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
     Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
 

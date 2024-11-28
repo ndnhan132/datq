@@ -143,11 +143,11 @@ class ProductSeeder extends Seeder
         $maxphotoId =  Photo::count();
         $maxCateId =  Category::count();
 
-        $unit_of_measurement = ['gói', 'thùng', 'chai', 'lon', ];
+        $unit = ['gói', 'thùng', 'chai', 'lon', ];
         $faker = Faker::create();
 
         foreach ($productNames as $name) {
-            $randomKey = array_rand($unit_of_measurement);
+            $randomKey = array_rand($unit);
             $tt = $faker->sentence($nbWords = 10, $variableNbWords = true);
 
 
@@ -171,7 +171,7 @@ class ProductSeeder extends Seeder
                 'discount' => rand(0 , 7) * 5,
                 'quantity' => rand(50, 500),
                 'sold_quantity' => rand(0, 500),
-                'unit_of_measurement' => $unit_of_measurement[$randomKey],
+                'unit' => $unit[$randomKey],
             ]);
             $product->categories()->attach( [rand( 2, $maxCateId ) ,rand( 2, $maxCateId )] );
 

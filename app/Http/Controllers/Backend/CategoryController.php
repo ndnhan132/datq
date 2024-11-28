@@ -52,7 +52,7 @@ class CategoryController extends Controller
             'required',
             'string',
             'max:255',
-            Rule::unique('categories', 'name')->ignore($id), // Bỏ qua bản ghi hiện tại
+            Rule::unique('categories', 'name')->ignore($categoryId), // Bỏ qua bản ghi hiện tại
         ],
             'category_id'   => 'required|integer',
         ], [

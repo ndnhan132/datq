@@ -72,10 +72,10 @@ function processProduct($product) {
     $newCarts = session()->get('carts') ?? [];
     $product->name_vi = $product->name_vi . " - " .  $product->categories()->first()->name;
     $product->first_photo = $product->photos()->first()->path; 
-    $product->link_detail_page = '/' . $product->categories()->first()->slug . "/" . $product->slug;
+    $product->url_detail_product = '/' . $product->categories()->first()->slug . "/" . $product->slug;
 
     // $product->link_category = "/" .  $product->categories()->first()->slug;
-    $product->first_photo = $product->photos()->first()->path; 
+    $product->first_photo = asset($product->photos()->first()->path); 
     $product->new_price = priceAfterDiscount($product);
     $product->cart_quantity = $newCarts[$product->id]['quantity'] ?? 0;
     return $product;

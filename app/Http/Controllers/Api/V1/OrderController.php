@@ -180,7 +180,7 @@ class OrderController extends Controller
             $resProducts[] = (object) [
                 "name_vi" => $product->name_vi,
                 "name_zh" => $product->name_zh,
-                "link" => $product->link_detail_page,
+                "link" => $product->url_detail_product,
                 "image" => $product->first_photo,
                 "quantity" => $product->pivot->quantity ?? 0,
             ];

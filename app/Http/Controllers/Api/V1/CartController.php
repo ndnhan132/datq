@@ -134,7 +134,7 @@ class CartController extends Controller
         else {
             $product = Product::findOrFail($productId);
             $carts[$productId] = [
-                'name'  => $product->name,
+                'name'  => $product->name_vi,
                 'quantity' => 1,
             ];
         }

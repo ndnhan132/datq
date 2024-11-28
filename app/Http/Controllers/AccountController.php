@@ -56,16 +56,15 @@ class AccountController extends Controller
         $password = $request->input('password');      
         $remember = ($request->input('remember')) ? true : false;
         
-        $phonenumber = "0368054220";
-        $password = 'N123456';
+        // $phonenumber = "0368054220";
+        // $password = 'N123456';
         $user = User::where('usr_phone', $phonenumber)->first();
 
         // dump($user && Hash::check($password, $user->usr_password));
-        // dd($user);  
         if ($user && Hash::check($password, $user->usr_password)) {
             Session::put('user', $user);
             Log::info('Đăng nhập thành công '. session()->get('user')->username ); 
-
+ 
             if ( $remember ) {
                 Cookie::queue('log_phone', $request->usr_phone, 60 * 24 * 7); // 30 ngày
                 Cookie::queue('log_password', $request->password, 60 * 24 * 7); // 30 ngày

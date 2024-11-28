@@ -16,9 +16,22 @@ class ProductController extends Controller
     //
 
     public function index() {
-        $products =  Product::orderBy('created_at', 'desc')->get();
+        $categories  = Category::orderBy('created_at', 'desc')->where('parent_id', '1')->get();
 
-        return view('backend.admin.product.index', compact('products') );
+        $per_page = 10;
+        $total_products = Product::count();
+        $page_number_max = ceil( $total_products / $per_page);
+        $filter = (object) [
+            "per_page" => "10",
+            "cate" => "0",
+            "search_txt" => "",
+            "page_number" => "1",
+            "page_number_max" => $page_number_max,
+        ];
+        $products =  Product::orderBy('created_at', 'desc')
+                            ->take(10)
+                            ->get();
+        return view('backend.admin.product.index', compact('products', 'categories', 'filter', 'total_products') );
     }
 
     public function create() {
@@ -30,22 +43,31 @@ class ProductController extends Controller
     public function store(Request $request) {
         // Log::debug($request->all());
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:190|unique:products',
-            'unit_of_measurement' => 'required|string|max:20',
+            'name_vi' => 'required|string|max:190|unique:products',
+            'name_zh' => 'max:190|unique:products',
+            'unit' => 'required|string|max:20',
             'category' => 'required',
             'cost_price' => 'numeric|min:0',
             'price' => 'numeric|min:0',
             'discount' => 'integer|between:0,100',
-            'editor_description'  => 'nullable',
+            'editor_description_vi'  => 'nullable',
+            'editor_description_zh'  => 'nullable',
+            'kiotviet_id'  => 'nullable',
+            'quantity'  =>  'integer',
         ], [
-            'name.required' => 'Tên là bắt buộc.',
-            'name.string' => 'Tên phải là một chuỗi ký tự.',
-            'name.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name.unique' => 'Tên đã tồn tại.',
+            'name_vi.required' => 'Tên là bắt buộc.',
+            'name_vi.string' => 'Tên phải là một chuỗi ký tự.',
+            'name_vi.max' => 'Tên không được vượt quá 190 ký tự.',
+            'name_vi.unique' => 'Tên đã tồn tại.',
 
-            'unit_of_measurement.required' => 'Đơn vị đo lường là bắt buộc.',
-            'unit_of_measurement.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
-            'unit_of_measurement.max' => 'Đơn vị đo lường không được vượt quá 20 ký tự.',
+            'name_zh.required' => 'Tên là bắt buộc.',
+            'name_zh.string' => 'Tên phải là một chuỗi ký tự.',
+            'name_zh.max' => 'Tên không được vượt quá 190 ký tự.',
+            'name_zh.unique' => 'Tên đã tồn tại.',
+
+            'unit.required' => 'Đơn vị đo lường là bắt buộc.',
+            'unit.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
+            'unit.max' => 'Đơn vị đo lường không được vượt quá 20 ký tự.',
             'category.required' => 'Danh mục là bắt buộc.',
             'category.integer' => 'Danh mục phải là một số nguyên.',
             'category.exists' => 'Danh mục đã chọn không tồn tại.',
@@ -64,15 +86,20 @@ class ProductController extends Controller
             ], 200);
         }
         $validated = $validator->validated();
-        $productDescriprion = $validated['editor_description'] ?? '';
+        $productDescriprion_vi = $validated['editor_description_vi'] ?? '';
+        $productDescriprion_zh = $validated['editor_description_zh'] ?? '';
         $product = new Product();
-        $product->name = $validated['name'];
-        $product->slug = Str::slug( $validated['name'] , '-' );
-        $product->unit_of_measurement = $validated['unit_of_measurement'];
+        $product->name_vi = $validated['name_vi'];
+        $product->name_zh = $validated['name_zh'];
+        $product->slug = Str::slug( $validated['name_vi'] , '-' );
+        $product->unit = $validated['unit'];
         $product->cost_price = $validated['cost_price'];
         $product->price = $validated['price'];
         $product->discount = $validated['discount'];
-        $product->description = $productDescriprion;
+        $product->description_vi = $productDescriprion_vi;
+        $product->description_zh = $productDescriprion_zh;
+        $product->kiotviet_id = $validated['kiotviet_id'];
+        $product->quantity = $validated['quantity'];
 
         $product->save();
         $product->categories()->sync($validated['category']);
@@ -80,7 +107,7 @@ class ProductController extends Controller
         $photoArr = $request->input('photo_id') ?? [];
         $product->photos()->sync( $photoArr );
         
-        Log::info(session()->get('user')->username.' thêm mới sản phẩm: '. $product->name);
+        Log::info(session()->get('user')->display_name.' thêm mới sản phẩm: '. $product->name);
         // Log::debug($product);
 
         return response()->json([
@@ -102,31 +129,42 @@ class ProductController extends Controller
     }
     
     public function postUpdate(Request $request) {
-        // Log::debug($request->all());
+        Log::debug($request->all());
         $productId = $request->input('product_id') ?? '';
         $validator = Validator::make($request->all(), [
-            'name' => [
-                'required',
+            'name_vi' => [
                 'string',
                 'max:190',
                 Rule::unique('products')->ignore($productId),
             ],
-            'unit_of_measurement' => 'required|string|max:20',
+            'name_zh' => [
+                'max:190',
+                Rule::unique('products')->ignore($productId),
+            ],
+            'unit' => 'required|string|max:20',
             'category' => 'required',
             'cost_price' => 'numeric|min:0',
             'price' => 'numeric|min:0',
             'discount' => 'integer|between:0,100',
-            'product_id' => 'required',
-            'editor_description'  => 'nullable',
+            // 'product_id' => 'required',
+            'editor_description_vi'  => 'nullable',
+            'editor_description_zh'  => 'nullable',
+            'kiotviet_id'  => 'nullable',
+            'quantity'  =>  'integer',
         ], [
-            'name.required' => 'Tên là bắt buộc.',
-            'name.string' => 'Tên phải là một chuỗi ký tự.',
-            'name.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name.unique' => 'Tên đã tồn tại.',
+            'name_vi.required' => 'Tên là bắt buộc.',
+            'name_vi.string' => 'Tên phải là một chuỗi ký tự.',
+            'name_vi.max' => 'Tên không được vượt quá 190 ký tự.',
+            'name_vi.unique' => 'Tên đã tồn tại.',
 
-            'unit_of_measurement.required' => 'Đơn vị đo lường là bắt buộc.',
-            'unit_of_measurement.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
-            'unit_of_measurement.max' => 'Đơn vị đo lường không được vượt quá 20 ký tự.',
+            'name_zh.required' => 'Tên là bắt buộc.',
+            'name_zh.string' => 'Tên phải là một chuỗi ký tự.',
+            'name_zh.max' => 'Tên không được vượt quá 190 ký tự.',
+            'name_zh.unique' => 'Tên đã tồn tại.',
+
+            'unit.required' => 'Đơn vị đo lường là bắt buộc.',
+            'unit.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
+            'unit.max' => 'Đơn vị đo lường không được vượt quá 20 ký tự.',
             'category.required' => 'Danh mục là bắt buộc.',
             'category.integer' => 'Danh mục phải là một số nguyên.',
             'category.exists' => 'Danh mục đã chọn không tồn tại.',
@@ -148,16 +186,23 @@ class ProductController extends Controller
 
 
 
-        $productDescriprion = $validated['editor_description'] ?? '';
-
+        $productDescriprion_vi = $validated['editor_description_vi'] ?? '';
+        $productDescriprion_zh = $validated['editor_description_zh'] ?? '';
         $product = Product::find($productId);
-        $product->name = $validated['name'];
-        $product->slug = Str::slug( $validated['name'] , '-' );
-        $product->unit_of_measurement = $validated['unit_of_measurement'];
+        $product->name_vi = $validated['name_vi'];
+        $product->name_zh = $validated['name_zh'];
+        // $product->slug = Str::slug( $validated['name_vi'] , '-' );
+        $product->unit = $validated['unit'];
         $product->cost_price = $validated['cost_price'];
         $product->price = $validated['price'];
         $product->discount = $validated['discount'];
-        $product->description = $productDescriprion;
+
+        $product->description_vi = $productDescriprion_vi;
+        $product->description_zh = $productDescriprion_zh;
+        $product->kiotviet_id = $validated['kiotviet_id'];
+        $product->quantity = $validated['quantity'];
+
+
         $product->save();
         $product->categories()->sync($validated['category']);
 
@@ -188,6 +233,51 @@ class ProductController extends Controller
             'referer' => route('admin.product.index'),
          ], 200);
 
+
+    }
+
+
+    public function loadDataTable( Request $request) {
+        Log::debug("loading data table". json_encode($request->all()));
+        $per_page = $request->input('per_page') ?? 10;
+        $cate = $request->input('cate') ?? 0;
+        $search_txt = $request->input('search_txt') ?? null;
+        $page_number = $request->input('page_number') ?? 1;
+
+        $query = Product::query();
+
+        if ($cate) {
+            $query->whereHas('categories', function ($q) use ($cate) {
+                $q->where('categories.id', $cate); // Lọc theo `category_id`
+            });
+        }
+        if ( !empty($search_txt) ) {
+            $query->where('name_vi', 'like' , "%" .$search_txt . "%");
+        }
+
+        // Tính số lượng sản phẩm trong query
+$total_products = $query->count(); // Tổng số sản phẩm
+
+// Tính số trang tối đa
+$page_number_max = ceil($total_products / $per_page);
+
+
+        if($per_page ) {
+            $query->take($per_page);
+        }
+
+        if($page_number) {
+            $offset = ($page_number - 1) * $per_page; // Tính vị trí bắt đầu
+            $query->skip($offset); // Bỏ qua số bản ghi tương ứng
+        }
+
+        $products = $query->orderBy('created_at', 'desc')->get();
+        $html =  view( 'backend.admin.product.datatable', compact('products') )->render();
+        return response()->json([
+            'html' => $html,
+            'total_products' => $total_products,
+            'page_number_max' => $page_number_max,
+        ], 200);
 
     }
 

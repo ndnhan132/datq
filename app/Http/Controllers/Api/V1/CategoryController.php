@@ -65,8 +65,7 @@ class CategoryController extends Controller
             $item = new \stdClass();
 
             $item->category = $cate->only("id" , "name", "slug");
-            $prds = processProducts($cate->products->take(12));
-            // dd($prds);
+            $prds = processProducts($cate->products()->orderBy('created_at', 'desc')->take(12)->get());
             $prds = $prds->map(function ($product) {
                 return [
                     'id'    => $product->id,
@@ -74,7 +73,7 @@ class CategoryController extends Controller
                     'price' => $product->price,
                     'discount' => $product->discount,
                     'first_photo' => $product->first_photo,
-                    'link_detail_page' => $product->link_detail_page,
+                    'url_detail_product' => $product->url_detail_product,
                     'new_price' => $product->new_price,
                     'cart_quantity' => $product->cart_quantity,
                     'quantity'  => $product->quantity,
