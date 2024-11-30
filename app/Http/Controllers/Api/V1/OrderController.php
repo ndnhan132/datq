@@ -13,6 +13,7 @@ use App\Models\Province;
 use App\Models\District;
 use App\Models\Ward;
 use App\Models\User;
+use App\Models\ProductVariant;
  
 use Illuminate\Support\Facades\Log;
 class OrderController extends Controller
@@ -31,7 +32,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // Log::info($request->all());  
+        Log::info($request->all());  
         $customerData = $request->input('customerData');
         // Log::alert($customerData );
         $otherRecipient = $request->input('otherRecipient') ?? null;
@@ -42,7 +43,7 @@ class OrderController extends Controller
 
         $carts = session()->get('carts', []);
         $cartIds = array_keys($carts);
-        $cartProducts = Product::whereIn('id', $cartIds)->get();
+        $cartProducts = ProductVariant::whereIn('id', $cartIds)->get();
 
         $subTotal = calSubtotal ( $cartProducts, $carts );
         $discountTotal = calDiscountTotal ( $cartProducts, $carts );
@@ -51,9 +52,8 @@ class OrderController extends Controller
         $shippingFee = 0;
         $totalPayable = $subTotal - $discountTotal - $tax + $shippingFee - $promo;
         
-
-             
-
+        
+        
         $provinceId = $customerData['address']['province']["id"] ?? null;
         $districtId = $customerData['address']['district']["id"] ?? null;
         $wardId = $customerData['address']['ward']["id"] ?? null;
@@ -61,6 +61,7 @@ class OrderController extends Controller
         $provinceName = Province::find($provinceId)->name ?? "";
         $districtName = District::find($districtId)->name ?? "";
         $wardName = Ward::find($wardId)->name ?? "";
+        // Log::info($provinceId . "- " . $districtId . "- " . $wardId);
         $customerAddress = $customerAddress . ", " . $wardName . ", " . $districtName . ", " . $provinceName;
 
 
@@ -68,14 +69,15 @@ class OrderController extends Controller
         $customerPhone = $customerData['phone'];
         $customerName = $customerData['name'];
         $user = User::where("usr_phone", $customerPhone )->first();
-        Log::alert($user);
+
         if (!$user) {
             $user = new User();
-            $user->usr_phone   = $customerPhone;
+            $user->usr_phone    = $customerPhone;
             $user->display_name = $customerName;
-            $user->usr_address      = $customerAddress;
+            $user->usr_address  = $customerAddress;
             $user->save();
         }
+        Log::alert($user);
 
         $order = new Order();
         $order->customer_id     = $user->id;
@@ -128,7 +130,7 @@ class OrderController extends Controller
         $order->save();
 
         foreach ($cartProducts as $cartPrd) {
-            $order->products()->syncWithoutDetaching([
+            $order->productVariants()->syncWithoutDetaching([
                 $cartPrd->id => [
                     'quantity' => $carts[$cartPrd->id]['quantity'], // Số lượng sản phẩm
                     'cost_price' => $cartPrd->cost_price,          // Giá vốn
@@ -138,7 +140,7 @@ class OrderController extends Controller
         }
         session()->forget('carts');
 
-        Log::notice("storeOrder 1" . $order);
+        Log::notice("storeOrder : " . $order);
         return response()->json([
             'success' => true,
             'order_id' =>  $order->id,
@@ -174,15 +176,23 @@ class OrderController extends Controller
             ], 404);
         }
 
-        $products = processProducts( Order::find($id)->products );
+
+        //  = ProductVariant::whereIn('id', $cartIds)->get();
+
+         $cartProducts = Order::find($id)->productVariants;
+        // $products = helperProductsFormatForClient( Order::find($id)->productVariants );
         $resProducts = [];
-        foreach ($products as $product) {
+        foreach ($cartProducts as $variant) {
+            $title = $variant->product->fullname_vi;
+            if ($variant->variant_title) {
+                $title .= " - " . $variant_title;
+            }
             $resProducts[] = (object) [
-                "name_vi" => $product->name_vi,
-                "name_zh" => $product->name_zh,
-                "link" => $product->url_detail_product,
-                "image" => $product->first_photo,
-                "quantity" => $product->pivot->quantity ?? 0,
+                "fullname_vi" => $title,
+                // "fullname_zh" => $product->fullname_zh,
+                'link' => '/' . $variant->product->categories()->first()->slug . "/" . $variant->product->slug,
+                'thumbnail' => $variant->product->photos->first() ? $variant->product->photos->first()->path : "", // Lấy danh sách URL của ảnh
+                "quantity" => $variant->pivot->quantity ?? 0,
             ];
         }     
 

@@ -30,16 +30,16 @@ class CategorySeeder extends Seeder
             "Đồ Ăn Nhanh",
             "Đồ Uống Đóng Hộp",
             "Đồ Nướng & Khô",
-            "Mì & Bún Ăn Liền",
-            "Hạt & Ngũ Cốc",
-            "Đồ Chua & Dưa Muối",
-            "Hải Sản Sấy Khô",
-            "Snack Rong Biển",
-            "Kẹo Dẻo & Kẹo Đắng",
-            "Trà Sữa & Đồ Uống Đặc Biệt",
-            "Đồ Chay Trung Quốc",
-            "Trái Cây Sấy",
-            "Gia Vị & Nước Chấm Trung Quốc"
+            // "Mì & Bún Ăn Liền",
+            // "Hạt & Ngũ Cốc",
+            // "Đồ Chua & Dưa Muối",
+            // "Hải Sản Sấy Khô",
+            // "Snack Rong Biển",
+            // "Kẹo Dẻo & Kẹo Đắng",
+            // "Trà Sữa & Đồ Uống Đặc Biệt",
+            // "Đồ Chay Trung Quốc",
+            // "Trái Cây Sấy",
+            // "Gia Vị & Nước Chấm Trung Quốc"
         ];
         foreach($chineseSnackCategories as $sub) {
             Category::create([

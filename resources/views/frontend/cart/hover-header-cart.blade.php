@@ -9,7 +9,7 @@
             </div>
             <div class="cart-item-detail">
                 <div>{{ $cartItem->name }}</div>
-                <div class="text-danger">{{ convertMoneyToStr(priceAfterDiscount( $cartItem->price , $cartItem->discount) ) }} đ x {{ $cartItem->cartQuantity }}</div>
+                <div class="text-danger">{{ convertMoneyToStr(priceAfterDiscount( $cartItem->price , $cartItem->discount_percent) ) }} đ x {{ $cartItem->cartQuantity }}</div>
             </div>
         </div>
         

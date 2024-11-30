@@ -41,10 +41,10 @@ class ProductController extends Controller
         return view('backend.admin.product.create', compact('categories', 'formAction') );
     }
     public function store(Request $request) {
-        // Log::debug($request->all());
+        Log::debug($request->all());
         $validator = Validator::make($request->all(), [
-            'name_vi' => 'required|string|max:190|unique:products',
-            'name_zh' => 'max:190|unique:products',
+            'fullname_vi' => 'required|string|max:190|unique:products',
+            'fullname_zh' => 'nullable|max:190|unique:products',
             'unit' => 'required|string|max:20',
             'category' => 'required',
             'cost_price' => 'numeric|min:0',
@@ -53,17 +53,17 @@ class ProductController extends Controller
             'editor_description_vi'  => 'nullable',
             'editor_description_zh'  => 'nullable',
             'kiotviet_id'  => 'nullable',
-            'quantity'  =>  'integer',
+            'sold_quantity'  =>  'integer',
         ], [
-            'name_vi.required' => 'Tên là bắt buộc.',
-            'name_vi.string' => 'Tên phải là một chuỗi ký tự.',
-            'name_vi.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name_vi.unique' => 'Tên đã tồn tại.',
+            'fullname_vi.required' => 'Tên là bắt buộc.',
+            'fullname_vi.string' => 'Tên phải là một chuỗi ký tự.',
+            'fullname_vi.max' => 'Tên không được vượt quá 190 ký tự.',
+            'fullname_vi.unique' => 'Tên đã tồn tại.',
 
-            'name_zh.required' => 'Tên là bắt buộc.',
-            'name_zh.string' => 'Tên phải là một chuỗi ký tự.',
-            'name_zh.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name_zh.unique' => 'Tên đã tồn tại.',
+            'fullname_zh.required' => 'Tên là bắt buộc.',
+            'fullname_zh.string' => 'Tên phải là một chuỗi ký tự.',
+            'fullname_zh.max' => 'Tên không được vượt quá 190 ký tự.',
+            'fullname_zh.unique' => 'Tên đã tồn tại.',
 
             'unit.required' => 'Đơn vị đo lường là bắt buộc.',
             'unit.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
@@ -86,29 +86,51 @@ class ProductController extends Controller
             ], 200);
         }
         $validated = $validator->validated();
-        $productDescriprion_vi = $validated['editor_description_vi'] ?? '';
-        $productDescriprion_zh = $validated['editor_description_zh'] ?? '';
+        $productDescription_vi = $validated['editor_description_vi'] ?? '';
+        $productDescription_zh = $validated['editor_description_zh'] ?? '';
+
         $product = new Product();
-        $product->name_vi = $validated['name_vi'];
-        $product->name_zh = $validated['name_zh'];
-        $product->slug = Str::slug( $validated['name_vi'] , '-' );
+        $product->fullname_vi = $validated['fullname_vi'];
+        $product->fullname_zh = $validated['fullname_zh'];
+        $product->slug = Str::slug( $validated['fullname_vi'] , '-' );
         $product->unit = $validated['unit'];
-        $product->cost_price = $validated['cost_price'];
-        $product->price = $validated['price'];
-        $product->discount = $validated['discount'];
-        $product->description_vi = $productDescriprion_vi;
-        $product->description_zh = $productDescriprion_zh;
-        $product->kiotviet_id = $validated['kiotviet_id'];
-        $product->quantity = $validated['quantity'];
-
+        $product->description_vi = $productDescription_vi;
+        $product->description_zh = $productDescription_zh;
+        
+        
+        
         $product->save();
+        
         $product->categories()->sync($validated['category']);
-
         $photoArr = $request->input('photo_id') ?? [];
         $product->photos()->sync( $photoArr );
         
+        
+
+        $product->variants()->create([
+            'variant_title' => 'Đỏ (Cay)',
+            // 'package_item_count' => 0,
+            // 'package_item_unit' => 'gói',
+            'net_unit_value' => 0,
+            'price' => $validated['price'],
+            'cost_price' => $validated['cost_price'],
+            'discount_percent' => $validated['discount_percent'],
+            'stock_quantity' => $validated['sold_quantity'],
+            'sold_quantity' => 0,
+        ]);
+        
+        
+        // $product->cost_price = $validated['cost_price'];
+        // $product->price = $validated['price'];
+        // $product->discount_percent = $validated['discount'];
+        // $product->kiotviet_id = $validated['kiotviet_id'];
+        // $product->quantity = $validated['quantity'];
+
+
+
         Log::info(session()->get('user')->display_name.' thêm mới sản phẩm: '. $product->name);
-        // Log::debug($product);
+
+        Log::debug($product);
 
         return response()->json([
            'success' => true,
@@ -132,12 +154,13 @@ class ProductController extends Controller
         Log::debug($request->all());
         $productId = $request->input('product_id') ?? '';
         $validator = Validator::make($request->all(), [
-            'name_vi' => [
+            'fullname_vi' => [
                 'string',
                 'max:190',
                 Rule::unique('products')->ignore($productId),
             ],
-            'name_zh' => [
+            'fullname_zh' => [
+                'nullable',
                 'max:190',
                 Rule::unique('products')->ignore($productId),
             ],
@@ -150,17 +173,17 @@ class ProductController extends Controller
             'editor_description_vi'  => 'nullable',
             'editor_description_zh'  => 'nullable',
             'kiotviet_id'  => 'nullable',
-            'quantity'  =>  'integer',
+            'sold_quantity'  =>  'integer',
         ], [
-            'name_vi.required' => 'Tên là bắt buộc.',
-            'name_vi.string' => 'Tên phải là một chuỗi ký tự.',
-            'name_vi.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name_vi.unique' => 'Tên đã tồn tại.',
+            'fullname_vi.required' => 'Tên là bắt buộc.',
+            'fullname_vi.string' => 'Tên phải là một chuỗi ký tự.',
+            'fullname_vi.max' => 'Tên không được vượt quá 190 ký tự.',
+            'fullname_vi.unique' => 'Tên đã tồn tại.',
 
-            'name_zh.required' => 'Tên là bắt buộc.',
-            'name_zh.string' => 'Tên phải là một chuỗi ký tự.',
-            'name_zh.max' => 'Tên không được vượt quá 190 ký tự.',
-            'name_zh.unique' => 'Tên đã tồn tại.',
+            'fullname_zh.required' => 'Tên là bắt buộc.',
+            'fullname_zh.string' => 'Tên phải là một chuỗi ký tự.',
+            'fullname_zh.max' => 'Tên không được vượt quá 190 ký tự.',
+            'fullname_zh.unique' => 'Tên đã tồn tại.',
 
             'unit.required' => 'Đơn vị đo lường là bắt buộc.',
             'unit.string' => 'Đơn vị đo lường phải là chuỗi ký tự.',
@@ -186,21 +209,18 @@ class ProductController extends Controller
 
 
 
-        $productDescriprion_vi = $validated['editor_description_vi'] ?? '';
-        $productDescriprion_zh = $validated['editor_description_zh'] ?? '';
+        $productDescription_vi = $validated['editor_description_vi'] ?? '';
+        $productDescription_zh = $validated['editor_description_zh'] ?? '';
         $product = Product::find($productId);
-        $product->name_vi = $validated['name_vi'];
-        $product->name_zh = $validated['name_zh'];
-        // $product->slug = Str::slug( $validated['name_vi'] , '-' );
+        $product->fullname_vi = $validated['fullname_vi'];
+        $product->fullname_zh = $validated['fullname_zh'];
         $product->unit = $validated['unit'];
-        $product->cost_price = $validated['cost_price'];
-        $product->price = $validated['price'];
-        $product->discount = $validated['discount'];
+ 
 
-        $product->description_vi = $productDescriprion_vi;
-        $product->description_zh = $productDescriprion_zh;
+        $product->description_vi = $productDescription_vi;
+        $product->description_zh = $productDescription_zh;
         $product->kiotviet_id = $validated['kiotviet_id'];
-        $product->quantity = $validated['quantity'];
+        $product->sold_quantity = $validated['sold_quantity'];
 
 
         $product->save();
@@ -252,7 +272,7 @@ class ProductController extends Controller
             });
         }
         if ( !empty($search_txt) ) {
-            $query->where('name_vi', 'like' , "%" .$search_txt . "%");
+            $query->where('fullname_vi', 'like' , "%" .$search_txt . "%");
         }
 
         // Tính số lượng sản phẩm trong query

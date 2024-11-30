@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\LocationController;
 
+Route::middleware(['web'])->group(function () {
 
 Route::get('products/filter', [ProductController::class, 'filter']);
 Route::get('products/flashsale', [ProductController::class, 'flashSale']);
@@ -28,7 +29,7 @@ Route::get('search/suggestSearch', [ProductController::class, 'suggestSearch']);
 
 Route::apiResource('products', ProductController::class);
 Route::apiResource('categories', CategoryController::class);
-Route::middleware(['web'])->group(function () {
+// Route::middleware(['web'])->group(function () {
     Route::get('cart/products', [CartController::class, 'getCartProducts']);
     Route::put('order/userConfirm', [OrderController::class, 'userConfirm']);
     Route::put('order/cancel', [OrderController::class, 'cancel']);

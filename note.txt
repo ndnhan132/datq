@@ -101,3 +101,7 @@ php artisan make:model Province -ms
 php artisan make:model District -ms
 php artisan make:model Ward -ms
 
+
+php artisan make:model Ward -ms
+product_variants 
+php artisan make:migration create_order_product_variant_table

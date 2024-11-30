@@ -8,8 +8,8 @@
         @endif
     </td>
     <td>
-        <span>Việt: </span><span>{{ $product->name_vi }}</span><br/>
-        <span>Trung: </span><span>{{ $product->name_zh }}</span>
+        <span>Việt: </span><span>{{ $product->fullname_vi }}</span><br/>
+        <span>Trung: </span><span>{{ $product->fullname_zh }}</span>
     </td>
     <td>
         @foreach( $product->categories as $category )
@@ -18,7 +18,7 @@
     </td>
     <td>{{ convertMoneyToStr($product->price) }}đ/{{ $product->unit }}</td>
     <td>{{ convertMoneyToStr($product->cost_price) }} đ</td>
-    <td>{{ $product->discount }}%</td>
+    <td>{{ $product->discount_percent }}%</td>
     <td>{{ $product->sold_quantity }}</td>
     <td>{{ $product->quantity }}</td>
     <td>
@@ -26,7 +26,7 @@
             sửa
         </a>
 
-        <a data-action="{{ route('admin.product.delete') }}" data-prdname="{{ $product->name_vi }}" data-prdid="{{ $product->id }}"  class="btn btn-sm btn-light btn_del_product mx-3">
+        <a data-action="{{ route('admin.product.delete') }}" data-prdname="{{ $product->fullname_vi }}" data-prdid="{{ $product->id }}"  class="btn btn-sm btn-light btn_del_product mx-3">
             Xóa
         </a>
     </td>

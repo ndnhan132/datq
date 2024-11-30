@@ -14,7 +14,7 @@ $chinaCategories = App\Models\Category::with('products')->where('parent_id', '1'
             @foreach ($products as $prd)
 
 
-                    @include('frontend.layouts.product-card', ['productTitle' => $prd->name, 'productImg' => $prd->image_url, 'productPrice' => $prd->price, 'productDiscount'=>$prd->discount , 'productId' => $prd->id, 'slug' => $prd->slug, 'description' => $prd->description])
+                    @include('frontend.layouts.product-card', ['productTitle' => $prd->name, 'productImg' => $prd->image_url, 'productPrice' => $prd->price, 'productDiscount'=>$prd->discount_percent , 'productId' => $prd->id, 'slug' => $prd->slug, 'description' => $prd->description])
 
             @endforeach
             

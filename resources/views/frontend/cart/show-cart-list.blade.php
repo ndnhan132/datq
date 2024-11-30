@@ -33,7 +33,7 @@
                 <div class="d-flex item-price">
                     <div class="d-flex flex-sm-column align-self-center p-2">
 
-                        <span class="new-price">{{ convertMoneyToStr( priceAfterDiscount( $product->price , $product->discount ) ) }}<span class="vnd">đ</span>
+                        <span class="new-price">{{ convertMoneyToStr( priceAfterDiscount( $product->price , $product->discount_percent ) ) }}<span class="vnd">đ</span>
                         </span>
                         <span class="old-price">{{ convertMoneyToStr( $product->price ) }}<span class="vnd">đ</span> </span>
                     </div>

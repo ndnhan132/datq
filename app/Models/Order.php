@@ -46,18 +46,24 @@ class Order extends Model
     }
 
     
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'order_product')
-                    ->withPivot('quantity', 'cost_price', 'final_price') // Trường trung gian
-                    ->withTimestamps();
-    }
+    // public function products()
+    // {
+    //     return $this->belongsToMany(Product::class, 'order_product')
+    //                 ->withPivot('quantity', 'cost_price', 'final_price') // Trường trung gian
+    //                 ->withTimestamps();
+    // }
 
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id', 'id');
     }
 
+    public function productVariants()
+    {
+        return $this->belongsToMany(ProductVariant::class, 'order_product_variant')
+                    ->withPivot('quantity', 'cost_price', 'final_price') // Trường trung gian
+                    ->withTimestamps();
+    }
 
     
 }

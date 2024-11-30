@@ -60,25 +60,29 @@ class CategoryController extends Controller
         if (!$categories) {
             return response()->json(['message' => 'No categories found'], 404);
         }
+        // dd($categories);
         $res = [];
         foreach ($categories as $cate ) {
             $item = new \stdClass();
 
             $item->category = $cate->only("id" , "name", "slug");
-            $prds = processProducts($cate->products()->orderBy('created_at', 'desc')->take(12)->get());
-            $prds = $prds->map(function ($product) {
-                return [
-                    'id'    => $product->id,
-                    'name' => $product->name_vi,
-                    'price' => $product->price,
-                    'discount' => $product->discount,
-                    'first_photo' => $product->first_photo,
-                    'url_detail_product' => $product->url_detail_product,
-                    'new_price' => $product->new_price,
-                    'cart_quantity' => $product->cart_quantity,
-                    'quantity'  => $product->quantity,
-                ];
-            });
+            $prds = helperProductsFormatForClient($cate->products()->orderBy('created_at', 'desc')->take(12)->get());
+
+
+
+            // $prds = $prds->map(function ($product) {
+            //     return [
+            //         'id'    => $product->id,
+            //         'name' => $product->fullname_vi,
+            //         'price' => $product->price,
+            //         'discount' => $product->discount_percent,
+            //         'first_photo' => $product->first_photo,
+            //         'url_detail_product' => $product->url_detail_product,
+            //         'new_price' => $product->new_price,
+            //         'cart_quantity' => $product->cart_quantity,
+            //         'stock_quantity'  => $product->stock_quantity,
+            //     ];
+            // });
             
             $item->products = $prds;
 

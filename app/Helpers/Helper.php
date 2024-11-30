@@ -2,9 +2,10 @@
 
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
-function priceAfterDiscount($product) {
-    $discountedPrice = $product->price - ($product->price * $product->discount / 100);
+function priceAfterDiscount($variant) {
+    $discountedPrice = $variant->price - ($variant->price * $variant->discount_percent / 100);
     $roundedDownPrice = floor($discountedPrice / 1000) * 1000;
     return $roundedDownPrice;
 }
@@ -70,16 +71,76 @@ function processProducts($products) {
 
 function processProduct($product) {
     $newCarts = session()->get('carts') ?? [];
-    $product->name_vi = $product->name_vi . " - " .  $product->categories()->first()->name;
-    $product->first_photo = $product->photos()->first()->path; 
+    $product->fullname_vi = $product->fullname_vi . " - " .  $product->categories()->first()->name;
+    // $product->first_photo = $product->photos()->first()->path; 
     $product->url_detail_product = '/' . $product->categories()->first()->slug . "/" . $product->slug;
 
     // $product->link_category = "/" .  $product->categories()->first()->slug;
-    $product->first_photo = asset($product->photos()->first()->path); 
+    if ($product->photos()->first()) {
+        $product->first_photo = asset($product->photos()->first()->path) ?? ""; 
+    }
+    else {
+        $product->first_photo = "https://img100.pixhost.to/images/485/538259425_images.jpg"; 
+
+    }
     $product->new_price = priceAfterDiscount($product);
-    $product->cart_quantity = $newCarts[$product->id]['quantity'] ?? 0;
+    $product->quantity_in_cart = $newCarts[$product->id]['quantity'] ?? 0;
     return $product;
 }
+
+
+
+function helperProductsFormatForClient($products)
+{
+    return $products->map(function ($product) {
+        return helperProductFormatForClient($product);
+    });
+}
+
+function helperProductFormatForClient($product)
+{
+
+    return [
+        'id' => $product->id,
+        'fullname_vi' => $product->fullname_vi,
+        // 'new_price' => priceAfterDiscount($product),
+        // 'price' => $product->price,
+
+        'unit' => $product->unit,
+        'category' => $product->categories->pluck('name') ?? [],
+        'variants_count' => $product->variants->count(),
+        'variants' => processVariants($product->variants),
+        'images' => processImages($product->photos),
+        'url_detail_product' => '/' . $product->categories()->first()->slug . "/" . $product->slug,
+        // 'quantity_in_cart' => $newCarts[$product->id]['quantity'] ?? 0,
+        'thumbnail' => $product->photos()->first() ? asset($product->photos()->first()->path) : "https://img100.pixhost.to/images/485/538259425_images.jpg",
+    ];
+}
+
+function processVariants($variants)
+{
+
+    $newCarts = session()->get('carts') ?? [];
+
+    return $variants->map(function ($variant) use ($newCarts) {
+        return [
+            'id' => $variant->id,
+            'title' => $variant->variant_title,
+            'price' => $variant->price,
+            'new_price' => priceAfterDiscount($variant),
+            'discount_percent' => $variant->discount_percent,
+            'stock_quantity' => $variant->stock_quantity,
+            'text_avg_price_unit' => "(8.958₫/Lon)",
+            'quantity_in_cart' => $newCarts[$variant->id]['quantity'] ?? 0,
+
+        ];
+    });
+}
+function processImages($images)
+{
+    return $images->pluck('path');
+}
+
 
 
 

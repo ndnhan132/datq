@@ -84,14 +84,14 @@ class ProductController extends Controller
     }
 
     public function flashSale(Request $request) {
-        $products = Product::take(24)->get();
+        $products = Product::with('variants')->take(24)->get();
 
 
 
+        $products = helperProductsFormatForClient($products);
         foreach ($products as $product) {
-            $product->remainingQuantity = $product->quantity;
+            $product['remaining_quantity'] = rand(25, 100);
         }
-        $products = processProducts($products);
         return response()->json($products, 200);
 
     }
@@ -99,7 +99,7 @@ class ProductController extends Controller
         $products = Product::offset(30)->take(24)->get();
 
         
-        $products = processProducts($products);
+        $products = helperProductsFormatForClient($products);
         return response()->json($products, 200);
     }
 
@@ -113,7 +113,10 @@ class ProductController extends Controller
         $sortBy = $request->input('sortBy', ); // Trang hiện tại
 
         $category = Category::where('slug', $categorySlug)->first(); 
+
+        // dd($category->products->pluck('id'));
         $query = Product::query();
+        // $query->whereNull('parent_id')->orWhere('parent_id', '<', 1);
         if ($page) {
             $offset = ($page - 1) * $perPage;
         }
@@ -148,7 +151,7 @@ class ProductController extends Controller
                 $query->orderByRaw('(price - (price * discount / 100)) asc');
                 break;
             default:
-                # code...
+                $query->orderBy('created_at', 'desc');
                 break;
         }
 
@@ -163,7 +166,7 @@ class ProductController extends Controller
 
 
         
-        $products = processProducts($products);
+        $products = helperProductsFormatForClient($products);
         // Log::info($products);
 
         
@@ -180,9 +183,10 @@ class ProductController extends Controller
         Log::debug("productBySlug ");
         Log::debug( $request->all());
         Log::debug( $productSlug );
-        $product = Product::with('photos')->where('slug', $productSlug)->first();
-        // dd($request);
+        $product = Product::with(['photos', 'variants'])->where('slug', $productSlug)->first();
+        // dd($product);
         $category  = Category::where('slug', $request->input('categorySlug'))->first();
+
         if (!$product) {
             return response()->json([
                 'product' => [], 
@@ -191,7 +195,7 @@ class ProductController extends Controller
         }
 
         $product = processProduct($product);
-        $product->remainingQuantity = $product->quantity;
+        $product->remaining_quantity = $product->sold_quantity;
         $product->categoryName = $category->name;
 
         return response()->json($product, 200);
@@ -215,7 +219,7 @@ class ProductController extends Controller
         ->take(6)
         ->get();
 
-        $similarProducts = processProducts($similarProducts);
+        $similarProducts = helperProductsFormatForClient($similarProducts);
 
         return response()->json( $similarProducts , 200);
     }
@@ -239,7 +243,7 @@ class ProductController extends Controller
         ->take(6)
         ->get();
 
-        $similarProducts = processProducts($similarProducts);
+        $similarProducts = helperProductsFormatForClient($similarProducts);
 
         return response()->json( $similarProducts , 200);
     }
@@ -248,12 +252,12 @@ class ProductController extends Controller
         $searchQuery = $request->input('searchQuery', "");
         // Log::debug("search query " . $searchQuery);
         $products = Product::query()
-        ->where('name_vi', 'like', '%' . $searchQuery . '%')
+        ->where('fullname_vi', 'like', '%' . $searchQuery . '%')
         ->orWhere('description_vi', 'like', '%' . $searchQuery . '%')
         ->orderBy("sold_quantity", "desc")
         ->take(10)
         ->get();
-        $products = processProducts($products);
+        $products = helperProductsFormatForClient($products);
 
         return response()->json($products, 200);
     }
@@ -270,7 +274,7 @@ class ProductController extends Controller
             "Mỳ trộn tương đen",
         ];
         $products = Product::take(10)->get();
-        $products = processProducts($products);
+        $products = helperProductsFormatForClient($products);
         
         return response()->json([
             'products' => $products,

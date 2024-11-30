@@ -9,7 +9,7 @@
             </div>
             <div class=" search-item-info">
                 <div class="search-item-price ">
-                    {{ convertMoneyToStr(priceAfterDiscount($product->price, $product->discount)) }}<span class="vnd">đ</span>
+                    {{ convertMoneyToStr(priceAfterDiscount($product->price, $product->discount_percent)) }}<span class="vnd">đ</span>
                 </div>
                 <h2 class="text-truncate  search-item-title">{{ $product->name }}</h2>
             </div>

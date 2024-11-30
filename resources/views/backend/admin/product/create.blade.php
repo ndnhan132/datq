@@ -41,16 +41,16 @@
                     <div class="col-sm-6">
                         <div class="form-group col-sm-12">
                             <label class="control-label">Tên sp Việt</label>
-                            <input class="form-control" type="text" placeholder="tên sp" name="name_vi" value="{{ isset($product) ? $product->name_vi : '' }}" >
+                            <input class="form-control" type="text" placeholder="tên sp" name="fullname_vi" value="{{ isset($product) ? $product->fullname_vi : '' }}" >
                             <div class="form-control-feedback">
-                                <span class="text-danger form-text-errorr" id="name_vi_err"></span>
+                                <span class="text-danger form-text-errorr" id="fullname_vi_err"></span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-12">
+                        <div class="form-group col-sm-12 d-none">
                             <label class="control-label">Tên sp trung</label>
-                            <input class="form-control" type="text" placeholder="tên sp" name="name_zh" value="{{ isset($product) ? $product->name_zh : '' }}" >
+                            <input class="form-control" type="text" placeholder="tên sp" name="fullname_zh" value="{{ isset($product) ? $product->fullname_zh : '' }}" >
                             <div class="form-control-feedback">
-                                <span class="text-danger form-text-errorr" id="name_zh_err"></span>
+                                <span class="text-danger form-text-errorr" id="fullname_zh_err"></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-6 d-none">
                             <label class="control-label">kiotviet id</label>
                             <input class="form-control" type="text" placeholder="kiotviet id" name="kiotviet_id" value="{{ isset($product) ? $product->kiotviet_id : '0' }}">
                             <div class="form-control-feedback">
@@ -102,16 +102,16 @@
                         <div class="form-group col-sm-6">
 
                             <label class="control-label">Khuyến mãi %</label>
-                            <input class="form-control" type="number" placeholder="Khuyến mãi" name="discount" value="{{ isset($product) ? $product->discount : '0' }}">
+                            <input class="form-control" type="number" placeholder="Khuyến mãi" name="discount_percent" value="{{ isset($discount_percent) ? $product->discount_percent : '0' }}">
                             <div class="form-control-feedback">
-                                <span class="text-dange form-text-errorr" id="discount_err"></span>
+                                <span class="text-dange form-text-errorr" id="discount_percent_err"></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="control-label">Số lượng</label>
-                            <input class="form-control" type="number" placeholder="Số lượng" name="quantity" value="{{ isset($product) ? $product->quantity : '0' }}">
+                            <input class="form-control" type="number" placeholder="Số lượng" name="sold_quantity" value="{{ isset($product) ? $product->sold_quantity : '0' }}">
                             <div class="form-control-feedback">
-                                <span class="text-danger form-text-errorr" id="quantity_err"></span>
+                                <span class="text-danger form-text-errorr" id="sold_quantity_err"></span>
                             </div>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                         <textarea name="editor_description" id="ck_editor_vi">{{ (isset($product) && isset($product->description_vi)) ? $product->description_vi : "" }}</textarea>
                     </div>
 
-                    <div class="col-sm-12 mt-3">
+                    <div class="col-sm-12 mt-3 d-none">
                         <textarea name="editor_description" id="ck_editor_zh">{{ (isset($product) && isset($product->description_zh)) ? $product->description_zh : "" }}</textarea>
                     </div>
 

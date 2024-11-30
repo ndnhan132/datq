@@ -77,7 +77,7 @@ class OrderController extends Controller
                 // $order->products()->attach( $cartPrd->id, [
                 //     'quantity' => $carts[$cartPrd->id]['quantity'],
                 //     'cost_price' => $cartPrd->cost_price,
-                //     'final_price' => priceAfterDiscount( $cartPrd->price , $cartPrd->discount ),
+                //     'final_price' => priceAfterDiscount( $cartPrd->price , $cartPrd->discount_percent ),
                 // ]);
             }
 
