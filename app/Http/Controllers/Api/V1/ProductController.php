@@ -104,7 +104,7 @@ class ProductController extends Controller
     }
 
     public function productsByCategory(Request $request) {
-        // Log::info($request);
+        Log::info($request);
 
         $categorySlug = $request->input('categorySlug');
         $perPage = $request->input('perPage', 20); // Default: 10 sản phẩm mỗi trang
@@ -132,6 +132,9 @@ class ProductController extends Controller
         $totalItems = $query->count();
         
         switch ($sortBy) {
+            case 'az':
+                $query->orderBy('fullname_vi', 'asc');
+                break;
             case 'newest':
                 $query->orderBy('created_at', 'desc');
                 break;
@@ -142,13 +145,13 @@ class ProductController extends Controller
                 # code...
                 break;
             case 'discount_desc':
-                $query->orderBy('discount', 'desc');
+                // $query->orderBy('discount', 'desc');
                 break;
             case 'price_desc':
-                $query->orderByRaw('(price - (price * discount / 100)) desc');
+                // $query->orderByRaw('(price - (price * discount / 100)) desc');
                 break;
             case 'price_asc':
-                $query->orderByRaw('(price - (price * discount / 100)) asc');
+                // $query->orderByRaw('(price - (price * discount / 100)) asc');
                 break;
             default:
                 $query->orderBy('created_at', 'desc');
@@ -165,9 +168,9 @@ class ProductController extends Controller
         $products = $query->get();
 
 
+        Log::info($products->pluck('id'));
         
         $products = helperProductsFormatForClient($products);
-        // Log::info($products);
 
         
         return response()->json([

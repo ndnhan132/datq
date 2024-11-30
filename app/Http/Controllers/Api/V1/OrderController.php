@@ -89,11 +89,11 @@ class OrderController extends Controller
 
         // $sessionCustomer = $request->session()->get('customer', []);
 
-        if($customerData['sex'] && strtoupper($customerData['sex']) === 'MALE') {
+        if(isset($customerData['sex']) && $customerData['sex'] && strtoupper($customerData['sex']) === 'MALE') {
             $order->gender = 'MALE';
             // $sessionCustomer['gender'] = 'MALE';
         }
-        if($customerData['sex'] && strtoupper($customerData['sex']) === 'FEMALE') {
+        if(isset($customerData['sex']) && $customerData['sex'] && strtoupper($customerData['sex']) === 'FEMALE') {
             $order->gender = 'FEMALE';
             // $sessionCustomer['gender'] = 'MALE';
         }
